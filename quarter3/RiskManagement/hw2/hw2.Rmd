@@ -1,0 +1,147 @@
+---
+title: "Hw2"
+author: "Huanyu Liu"
+date: "4/15/2019"
+output: pdf_document
+---
+
+# Problem 1
+1.  
+Technical used to calculate VaR: Historical method.  
+Goldman Sachs use historical data to estimate VaR. And they weight the data to give greater weights to more recent observations.  
+Time horizon: one day time horizon.  
+Confidence level: 95%  
+Number of VaR exceptions in 2008 (days where loss exceeded VaR): 13 days  
+changes to VaR methodology made as a result of the financial crisis  
+No changes in the report  
+  
+2.  
+```{python, engine.path = '/Users/huanyu/venv/bin/python3.6'}
+import pandas as pd
+from scipy.stats import norm
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
+stock_data = pd.read_csv('/Users/huanyu/Desktop/RiskManagement/hw2/GS.csv')
+days = len(stock_data)
+stock_data['return'] = stock_data['Adj Close'] / stock_data['Adj Close'].shift(1) - 1
+c = 0.99
+z_c = norm.ppf(1 - c)
+for i,v in enumerate(stock_data['Date'].values[502:]):
+    quantile = stock_data.loc[stock_data['Date'] < v,'return'].quantile(0.01)
+    #print(quantile)
+    stock_data.loc[stock_data['Date'] == v,'VaR'] = stock_data.loc[stock_data['Date'] == v, 'return'] - quantile
+    stock_data.loc[stock_data['Date'] == v, 'quantile'] = quantile
+stock_data['quantile'] = stock_data['quantile'].shift(1)
+stock_data.loc[~stock_data['quantile'].isna(),'within_var'] = np.ceil(stock_data.loc[~stock_data['quantile'].isna(),'return'] - stock_data.loc[~stock_data['quantile'].isna(),'quantile'])
+stock_data.loc[stock_data['Date'] > '2007-12-31',('Date','return','quantile')].plot(x='Date',y=['return','quantile'])
+plt.show()
+print(len(stock_data[stock_data['within_var'] == 0]))
+```
+(b) By back test, there are 21 days where loss exceeded VaR. On a 252 trading days basis, $\frac{21}{252}\approx 8.33\% >> 1\%$. The risk is much higher than that measured by VaR.  
+(c)  The firm is exposured to market volatility, so the return is more volatile and more returns accross the VaR.
+3.  
+(a)  
+```{python}
+start_date = pd.to_datetime('01/01/2006')
+end_date = pd.to_datetime('12/31/2008')
+gs = data.DataReader('GS','yahoo',start_date,end_date)
+ubs = data.DataReader('UBS','yahoo',start_date,end_date)
+jpm = data.DataReader('JPM','yahoo',start_date,end_date)
+citi = data.DataReader('C','yahoo',start_date,end_date)
+bcs = data.DataReader('BCS','yahoo',start_date,end_date)
+ms = data.DataReader('MS','yahoo',start_date,end_date)
+db = data.DataReader('DB','yahoo',start_date,end_date)
+bac = data.DataReader('BAC','yahoo',start_date,end_date)
+bnp = data.DataReader('BNPQY','yahoo',start_date,end_date)
+cs = data.DataReader('CS','yahoo',start_date,end_date)
+banks = [gs,ubs,jpm,citi,bcs,ms,db,bac,bnp,cs]
+start_date = pd.to_datetime('01/02/2008')
+portfolio = 0
+for i, v in enumerate(banks):
+    if i % 2 == 0:
+        v.loc[start_date,'value'] = 1000000
+        share = 1000000 / v.loc[start_date,'Adj Close']
+    else:
+        v.loc[start_date, 'value'] = 2000000
+        share = 2000000 / v.loc[start_date, 'Adj Close']
+
+    for j, w in enumerate(v.index):
+        v.loc[w,'value'] = share * v.loc[w,'Adj Close']
+    portfolio += v.loc[:,'value']
+portfolio = pd.DataFrame({'value':portfolio})
+portfolio['return'] = portfolio['value'] / portfolio['value'].shift(1) - 1
+for i, v in enumerate(portfolio.index[502:]):
+    quantile = portfolio.loc[:v, 'return'].quantile(0.01)
+    portfolio.loc[v, 'VaR'] = portfolio.loc[v, 'value'] * -quantile
+plt.plot(portfolio['VaR'])
+plt.show()
+lastday_var = portfolio.loc['2008-12-31','VaR']
+print(lastday_var)
+```
+(b)  
+DVAR  
+```{python}
+portfolio_dvar = 0
+result_dvar = dict()
+banks_name = ['gs','ubs','jpm','citi','bcs','ms','db','bac','bnp','cs']
+for i, v in enumerate(banks):
+    for j, w in enumerate(banks):
+        if j % 2 == 0:
+            w['share'] = 1000000 / w.loc[start_date, 'Adj Close']
+        else:
+            w['share'] = 2000000 / w.loc[start_date, 'Adj Close']
+    if i % 2 == 0:
+        v['share'] = 1000001 / v.loc[start_date,'Adj Close']
+    else:
+        v['share'] = 2000001 / v.loc[start_date, 'Adj Close']
+    portfolio_dvar = 0
+    for j, w in enumerate(banks):
+        w['value'] = w['share'] * w['Adj Close']
+        portfolio_dvar += w.loc[:,'value']
+    portfolio_dvar_df = pd.DataFrame(portfolio_dvar)
+    portfolio_dvar_df['return'] = portfolio_dvar_df['value'] / portfolio_dvar_df['value'].shift(1) - 1
+    for j, w in enumerate(portfolio_dvar_df.index[502:]):
+        quantile = portfolio_dvar_df.loc[:w, 'return'].quantile(0.01)
+        portfolio_dvar_df.loc[w, 'VaR'] = portfolio_dvar_df.loc[w, 'value'] * -quantile
+    result_dvar[banks_name[i]] = portfolio_dvar_df.loc['2008-01-01':,'VaR'] - portfolio.loc['2008-01-01':,'VaR']
+
+dvar_df = pd.DataFrame(result_dvar)
+print(dvar_df.loc['2008-12-31',:])
+```
+  
+CVAR  
+```{python}
+portfolio_cvar = 0
+result_cvar = dict()
+for i, v in enumerate(banks):
+    for j, w in enumerate(banks):
+        if j % 2 == 0:
+            w['share'] = 1000000 / w.loc[start_date, 'Adj Close']
+        else:
+            w['share'] = 2000000 / w.loc[start_date, 'Adj Close']
+    if i % 2 == 0:
+        v['share'] = 1010000 / v.loc[start_date,'Adj Close']
+    else:
+        v['share'] = 2020000 / v.loc[start_date, 'Adj Close']
+    portfolio_cvar = 0
+    for j, w in enumerate(banks):
+        w['value'] = w['share'] * w['Adj Close']
+        portfolio_cvar += w.loc[:,'value']
+    portfolio_cvar_df = pd.DataFrame(portfolio_cvar)
+    portfolio_cvar_df['return'] = portfolio_cvar_df['value'] / portfolio_cvar_df['value'].shift(1) - 1
+    for j, w in enumerate(portfolio_cvar_df.index[502:]):
+        quantile = portfolio_cvar_df.loc[:w, 'return'].quantile(0.01)
+        portfolio_cvar_df.loc[w, 'VaR'] = portfolio_cvar_df.loc[w, 'value'] * -quantile
+    result_cvar[banks_name[i]] = portfolio_cvar_df.loc['2008-01-01':,'VaR'] - portfolio.loc['2008-01-01':,'VaR']
+
+cvar_df = pd.DataFrame(result_cvar)
+print(cvar_df.loc['2008-12-31',:])
+```
+  
+(c)  
+The sum of CVaR divided by 1% should be total portfolio VaR. And the result $(444 + 784 + 701 + 583 + 1286 + 414 + 658 + 338 + 1166) / 0.01 \approx 637203$
+(d)  
+We should allocate less capital on firms with large DVAR and CVAR.  

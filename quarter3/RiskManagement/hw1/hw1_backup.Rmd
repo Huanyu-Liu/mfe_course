@@ -1,0 +1,95 @@
+---
+title: "Untitled"
+author: "Huanyu Liu"
+date: "4/4/2019"
+output: pdf_document
+---
+
+# Problem 1
+1  
+$$\begin{aligned}
+P(W < W_0 - VaR) &= 1 - c \\
+\lambda &= \frac{1}{W_0}\\
+cdf &= 1 - e^{-\lambda x} = 1 - c\\
+x &= -W_0 ln(c)\\
+x &= W_0 - VaR \\
+VaR &= W_0 + W_0 ln(c)\\
+&= W_0(1 + ln(c))\\
+\\
+\\
+W_0 &= 200, \space\space c=99.9\%\\
+VaR &= 199.8\\
+\end{aligned}$$  
+2  
+$$\begin{aligned}
+P(W > W_0 + VaR) &= 1 - c\\
+\lambda &= \frac{1}{W_0}\\
+cdf &= 1 - e^{-\lambda x} = c\\
+x &= -W_0 ln(1-c)\\
+x &= W_0 - VaR \\
+VaR &= -W_0 - W_0 ln(1-c)\\
+&= -W_0(1 + ln(1-c))\\
+\\
+\\
+W_0 &= 200, \space\space c=99.9\%\\
+VaR &= 1181.55\\
+\end{aligned}$$  
+3  
+  
+4  
+$$\begin{aligned}
+ES &= W_0 -E[W|W\le W_0-VaR]\\
+&= W_0 - \frac{\int_{-\infty}^{W_0-VaR}Wf(W)dW}{\int_{-\infty}^{W_0-VaR}f(W)dW}\\
+\int_{-\infty}^{W_0-VaR}f(W)dW &= 1 - c\\
+f(W) &= \lambda e^{-\lambda W}\\
+&\text{Denote }\int_{-\infty}^{W_0-VaR}Wf(W)dW \text{ as } A:\\
+&\because f(W) = 0 \space \text{for } W < 0\\
+&\therefore A = \int_0^{W_0-VaR}Wf(W)dW\\
+= \int_0^{W_0-VaR}We^{-\lambda W}dW \\
+\text{Integrating by parts: }\\
+A = -We^{-\lambda W}|_0^{W_0 - VaR} + \int_0^{W_0-VaR}e^{-\lambda W}dW\\
+= -(W_0 - VaR)e^{\lambda (VaR - W_0)} - \frac{1}{\lambda}e^{\lambda(VaR-W_0)} + \frac{1}{\lambda}\\
+\end{aligned}$$
+
+
+```{python, engine.path = '/Users/huanyu/venv/bin/python3.6', python.reticulate = FALSE}
+from scipy.stats import norm
+import numpy as np
+import matplotlib.pyplot as plt
+mu = 0.08
+sigma1 = 0.12
+sigma2 = 0.2
+small = 0.00001
+var = 2 * mu
+c = 0.01
+left = mu
+right = 100
+pi = 0.7
+def cdf(var, p = pi):
+    return p * norm.cdf(mu - var, loc = mu, scale = sigma1) \
+    + (1 - p) * norm.cdf(mu - var, loc = mu, scale = sigma2);
+
+
+def value_at_risk(p, var = var, mu = mu):
+    result = cdf(var)
+    right = 100
+    left = mu
+    while (abs(result - c) > small):
+        if result < c:
+            right = var
+        else:
+            left = var
+        var = (left + right) / 2
+        result = cdf(var, p)
+    return var
+
+var_result = value_at_risk(pi)
+print(var_result)
+pi_array = np.arange(0,1,0.01)
+var_array = np.zeros(100)
+for i,v in enumerate(pi_array):
+    var_array[i] = value_at_risk(v)
+plt.plot(pi_array, var_array)
+plt.savefig('foo.png')
+```
+![test](foo.png)

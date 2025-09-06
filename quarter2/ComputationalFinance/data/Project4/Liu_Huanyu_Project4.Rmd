@@ -1,0 +1,64 @@
+---
+title: "Project4"
+author: "Huanyu Liu"
+date: "2/6/2019"
+output: pdf_document
+---
+
+# Problem 1
+
+```{r, eval=TRUE}
+file_path = "/Users/huanyu/Desktop/ComputationalFinance/data/Project4/"
+df = read.csv(paste0(file_path,"problem1.csv"),header = FALSE)
+par(mfrow = c(2,2))
+methods = c("(a)","(b)","(c)","(d)")
+for (i in c(2:5)){
+  plot(df[[1]],df[[2]],type='l',ylim = c(3.72,3.77), col = i, ylab = 'price', xlab = 'n', main = paste0("Binomial Method ",methods[i-1]))
+}
+```
+
+# Problem 2
+(a) I have chosen K = 1240. The volatility is 23.4% by using 60 months of historical stock price data on yahoo finance.  
+My estimated option price is 70.0693, and the price got from finance.yahoo is 72.91.
+
+(b) The volatility that make my estimated price equal to market price is 24.4%.
+
+# Problem 3
+
+```{r, eval = TRUE}
+par(mfrow = c(2,3))
+df3 = read.csv(paste0(file_path, "problem3.csv"), header = FALSE)
+df3b = read.csv(paste0(file_path,"problem3b.csv"), header = FALSE)
+greek = c("Delta","Theta","Gamma","Vega","Rho")
+for (i in c(2:6)) {
+  plot(df3[[1]],df3[[i]],type = 'l', col = i,xlab = "S0",ylab = greek[i - 1], main = greek[i - 1])
+}
+plot(df3b[[1]],df3b[[2]], type = 'l', col = 7, xlab = 'T', ylab = 'Delta', main = "Delta")
+```
+
+# Problem 4
+
+```{r, eval = TRUE}
+df4 = read.csv(paste0(file_path,'problem4.csv'), header = FALSE)
+plot(df4[[1]],df4[[2]],type='l', col = 2, xlab = 'stock price', ylab = 'option price')
+lines(df4[[1]],df4[[3]],type='l',col = 3)
+legend("topright", legend = c("European Put Option", "American Put Option"), col = c(2, 3), lwd = 1.5, cex = 1.2, pch = 20)
+```  
+  
+  
+(1) Put option price decreases with the increase of stock price.  
+(2) European option price is less than American option price.  
+(3) With the increase of the stock price, the difference between European option price and American option price decreases.
+
+# Problem 5
+
+```{r,eval=TRUE}
+df5 = read.csv(paste0(file_path,'problem5.csv'),header = FALSE)
+plot(df5[[1]],df5[[2]],type='l',col = 2, ylim = c(3.7,3.76), xlab = 'n', ylab = 'option price')
+lines(df5[[1]],df5[[3]],type = 'l',col = 3)
+legend("topright", legend = c("Trinomial", "Log Trinomial"), col = c(2, 3), lwd = 1.5, cex = 1.2, pch = 20)
+```  
+
+# Problem 6
+I entered S0 = 32, K = 30, r = 0.05, Sigma = 0.24, T = 0.5, b1 = 2, b2 = 7  
+The value of the call option is 3.73219

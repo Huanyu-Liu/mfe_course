@@ -1,0 +1,45 @@
+---
+title: "Assignment1"
+author: "Huanyu Liu"
+date: "2/19/2019"
+output: pdf_document
+---
+
+#Problem 1
+(a)  
+straddle price = 17.545761290311667  
+(b)  
+straddle price = 17.902285762168567  
+(c)  
+binary option price = 0.6362740310157092  
+
+#Problem 2
+American put price = 2.4180613817488674  
+  
+American call price = 1.5029700662457506  
+
+#Problem 3
+(a)  
+American put price = 1.4557609224633503  
+American call price = 0.34422877540352725  
+  
+(b)  
+straddle price = 1.6435276485572474.  
+put + call = 1.79999 > straddle price  
+  
+  For a straddle you have to exercise put and call at the same time, however, you can exercise put and call at different time if you buy them individually.  
+
+#Problem 4
+(a)  
+Asian option by Monte Carlo = 3.287823190451338  
+(b)  
+
+#Problem 5
+(a)  
+American put price = 24.970715366744134  
+(b)  
+
+
+
+
+

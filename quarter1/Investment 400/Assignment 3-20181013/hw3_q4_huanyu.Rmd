@@ -1,0 +1,63 @@
+---
+title: "Hw3_q4_huanyu"
+output: pdf_document
+---
+
+## Question 4
+
+a)
+
+**Suppose we buy x Bond A, y Bond B, z Bond C (negative value means short that amount of bond). To eliminate any future payments, we have: **
+\begin{align*}
+100x &= 2000000\\
+4y + 6z &= 0\\
+104y + 106z &= 1000000\\
+x &= 20000\\
+y &= 30000\\
+z &= -20000\\
+\end{align*}
+**We should buy 20000 Bond A, 30000 Bond B, and sell 20000 Bond C to replicate the liability**
+
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+b)
+
+\begin{align*}
+\textbf{present value of the liability} &= \frac{1000000}{1.06^{30}} + \frac{2000000}{1.06^{31}}\\\\
+&= 502619.81\\\\
+\textbf{duration of the liabillity} &= \frac{\frac{1000000}{1.06^{30}}}{502619.81} \times 30 + \frac{\frac{2000000}{1.06^{31}}}{502619.81} \times 31\\\\
+&= 30.65\\
+\end{align*}
+**Suppose we buy x 10-year ZCB, y 15-year ZCB (negative value means short that amount of bond). The market value and the duration of the new portfolio are the same as those of the liability, so we have: **
+\begin{align*}
+\textbf{price of 10-year ZCB} &= \frac{100}{1.06^{10}} = 55.84\\
+\textbf{price of 15-year ZCB} &= \frac{100}{1.06^{15}} = 41.73\\\\
+55.84x + 41.73y &= 502619.81\\\\
+\textbf{duration of portfolio} &= \frac{55.84x}{502619.81} \times 10 + \frac{41.73y}{502619.81} \times 15\\\\ 
+\frac{55.84x}{502619.81} \times 10 + \frac{41.73y}{502619.81} \times 15 &= 30.65\\\\
+x &= -28180.09\\
+y &= 49756.89\\
+\end{align*}
+
+**We should sell 28180 10-year ZCB, and buy 49757 15-year ZCB to hedge the liability.**
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+c)
+
+**No, the hedging portfolio will not remain the same.**
+
+**We should short more 10-year ZCB and long more 15-year ZCB in the new hedging portfolio.**
+**Because the convexity of the liability is larger than that of the hedging portfolio, with the large decrease of interest rate, both the duration and the market value of the liability will increase more than those of the portfolio. In order to match both the duration and the market value, we should short more 10-year ZCB and long more 15-year ZCB.**
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+d)
+
+**Synthetic replication matches the cash flows of the liabilities perfectly. It does not need to rebalance with the change of interest rate.**
+
+**Sometimes it may be very difficult or very costly to find the proper securities to do the synthetic replication, while it's relatively easy to use approximate hedging by matching the duration.**

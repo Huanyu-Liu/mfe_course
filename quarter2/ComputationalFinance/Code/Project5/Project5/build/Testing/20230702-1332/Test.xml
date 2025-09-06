@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-g++"
+	BuildStamp="20230702-1332-Experimental"
+	Name="DESKTOP-M1A5T2T"
+	Generator="ctest-3.16.3"
+	CompilerName="/usr/bin/g++"
+	CompilerVersion="9.4.0"
+	OSName="Linux"
+	Hostname="DESKTOP-M1A5T2T"
+	OSRelease="5.10.102.1-microsoft-standard-WSL2"
+	OSVersion="#1 SMP Wed Mar 2 00:30:59 UTC 2022"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="AuthenticAMD"
+	VendorID="Advanced Micro Devices"
+	FamilyID="25"
+	ModelID="80"
+	ProcessorCacheSize="512"
+	NumberOfLogicalCPU="16"
+	NumberOfPhysicalCPU="8"
+	TotalVirtualMemory="2048"
+	TotalPhysicalMemory="6869"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="3193.91"
+	>
+	<Testing>
+		<StartDateTime>Jul 02 21:33 +08</StartDateTime>
+		<StartTestTime>1688304786</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jul 02 21:33 +08</EndDateTime>
+		<EndTestTime>1688304786</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

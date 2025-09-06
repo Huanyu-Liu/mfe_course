@@ -1,0 +1,63 @@
+---
+title: "Project5"
+author: "Huanyu Liu"
+date: "2/22/2019"
+output: pdf_document
+---
+
+# problem 1
+
+Laguerre polynomial:  
+s0 = 36, t = 0.5, k = 2: 3.9878  
+s0 = 36, t = 0.5, k = 3: 4.06671  
+s0 = 36, t = 0.5, k = 4: 3.97735  
+  
+Hermite polynomial:   
+s0 = 36, t = 0.5, k = 2: 4.18446  
+s0 = 36, t = 0.5, k = 3: 4.20282  
+s0 = 36, t = 0.5, k = 4: 3.97649  
+  
+Simple Monomials:    
+s0 = 36, t = 0.5, k = 2: 4.18446  
+s0 = 36, t = 0.5, k = 3: 4.20283  
+s0 = 36, t = 0.5, k = 4: 3.98421  
+  
+Laguerre polynomial:  
+s0 = 40, t = 1, k = 2: 1.20568  
+s0 = 40, t = 1, k = 3: 1.8338  
+s0 = 40, t = 1, k = 4: 2.12168  
+  
+Hermite polynomial:   
+s0 = 40, t = 1, k = 2: 2.20474  
+s0 = 40, t = 1, k = 3: 2.29459  
+s0 = 40, t = 1, k = 4: 1.81504  
+  
+Simple Monomials:   
+s0 = 40, t = 1, k = 2: 2.20474  
+s0 = 40, t = 1, k = 3: 2.29459  
+s0 = 40, t = 1, k = 4: 1.57861  
+  
+Laguerre polynomial:  
+s0 = 44, t = 2, k = 2: 0.747789  
+s0 = 44, t = 2, k = 3: 1.01222  
+s0 = 44, t = 2, k = 4: 1.27127  
+  
+Hermite polynomial:   
+s0 = 44, t = 2, k = 2: 1.47854  
+s0 = 44, t = 2, k = 3: 1.65052  
+s0 = 44, t = 2, k = 4: 1.62111  
+  
+Simple Monomials:   
+s0 = 44, t = 2, k = 2: 1.47854  
+s0 = 44, t = 2, k = 3: 1.65052  
+s0 = 44, t = 2, k = 4: 1.67863  
+  
+  
+  
+Hermite polynomials and Simple polynomials product very similar result, while Laguerre polynomial's results are little bit different.  
+When K = 3, the results are more stable and accurate than K = 2 or K = 4.  
+
+# Problem 2
+
+European Forward start: 3.1345  
+American Forward start: 3.41272

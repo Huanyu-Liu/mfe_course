@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.federalreserve.gov/structure/compact/Yields_Yields"
+   elementFormDefault="qualified" attributeFormDefault="unqualified"
+   xmlns="http://www.federalreserve.gov/structure/compact/Yields_Yields"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:frb="http://www.federalreserve.gov/structure/compact/common">
+    <xs:import namespace="http://www.federalreserve.gov/structure/compact/common" schemaLocation="frb_common.xsd"/>
+
+    <xs:element name="Series" type="SeriesType" substitutionGroup="frb:Series"/>
+    <xs:complexType name="SeriesType">
+        <xs:complexContent>
+            <xs:extension base="frb:SeriesType">
+                <xs:attribute name="BT" type="CL_BT" use="required"/>
+                <xs:attribute name="YT" type="CL_YT" use="required"/>
+                <xs:attribute name="CC" type="CL_CC" use="required"/>
+                <xs:attribute name="Start" type="CL_Years" use="required"/>
+                <xs:attribute name="Maturity" type="CL_Years" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="CL_BT">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TIPS">
+              <xs:annotation>
+                  <xs:documentation>TIPS Yield</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="IC">
+              <xs:annotation>
+                  <xs:documentation>Inflation Compensation</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Nominal">
+              <xs:annotation>
+                  <xs:documentation>Nominal yield</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CL_YT">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Zero">
+              <xs:annotation>
+                  <xs:documentation>Zero coupon</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Par">
+              <xs:annotation>
+                  <xs:documentation>Par</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Forward">
+              <xs:annotation>
+                  <xs:documentation>Forward</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CL_CC">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CC">
+              <xs:annotation>
+                  <xs:documentation>Continuously compounded</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CE">
+              <xs:annotation>
+                  <xs:documentation>Coupon-equivalent</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CL_Years">
+        <xs:union>
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>Number of years</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:int">
+                    <xs:minInclusive value="0" />
+                    <xs:maxInclusive value="30" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Inst">
+                        <xs:annotation>
+                            <xs:documentation>Instantaneous</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+</xs:schema>

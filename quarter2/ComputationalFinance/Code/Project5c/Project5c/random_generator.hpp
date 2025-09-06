@@ -1,0 +1,35 @@
+//
+//  random_generator.hpp
+//  Project8
+//
+//  Created by Huanyu Liu on 3/2/19.
+//  Copyright © 2019 Huanyu Liu. All rights reserved.
+//
+
+#ifndef random_generator_hpp
+#define random_generator_hpp
+
+#include <stdio.h>
+#include <vector>
+#include <cmath>
+#include <numeric>
+#endif /* random_generator_hpp */
+
+using std::vector;
+
+class random_generator{
+    unsigned long seed;
+    unsigned long m;
+    unsigned long a;
+public:
+    random_generator(unsigned long x = (1 << 10) + 1);
+    ~random_generator();
+    unsigned long get_seed(){return seed;}
+    double uniform_generator();
+    vector<double> normal_generator(int size);
+    vector<double> brownian_motion(int size, double t);
+    vector<double> cir_stock_path(int size, double r0, double kappa, double r_bar, double delta, double sigma);
+    vector<double> stock_path(int size, double t, double r, double sigma, double s0);
+    void set_seed(unsigned long seed);
+    void delfault();
+};

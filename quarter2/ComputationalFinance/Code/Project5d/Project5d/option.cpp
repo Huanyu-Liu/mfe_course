@@ -1,0 +1,245 @@
+//
+//  option.cpp
+//  Project5
+//
+//  Created by Huanyu Liu on 2/18/19.
+//  Copyright © 2019 Huanyu Liu. All rights reserved.
+//
+
+#include "option.hpp"
+
+option::option(double s0, double r, double sigma, double x, double t){
+    this->s0 = s0;
+    this->r = r;
+    this->sigma = sigma;
+    this->x = x;
+    this->t = t;
+    //this->size = size;
+//    this->path_count = path_count;
+//    random_generator rg;
+//    path = new double*[path_count];
+//    for (int i = 0; i < path_count; ++i){
+//        path[i] = rg.stock_path(size, t, r, sigma, s0);
+//    }
+}
+
+option::~option(){
+}
+////    for (int i = 0; i < path_count; ++i){
+////        delete path[i];
+////    }
+//    delete path;
+//}
+//
+//option::option(const option & op){
+//    for (int i = 0; i < path_count; ++i){
+//        for (int j = 0; j < size; ++j){
+//            path[i][j] = op.path[i][j];
+//        }
+//    }
+//}
+//
+//option & option::operator=(const option & op){
+//    if (this == &op) return *this;
+//    else {
+//        // free the storage pointed to by Items
+//        for (int i = 0; i < path_count; ++i){
+//            delete path[i];
+//        }
+//        delete [] path;
+//        size = op.size;
+//        path_count = op.path_count;
+//        path = new double * [path_count];
+//        for (int i = 0; i < path_count; ++i){
+//            path[i] = new double[size];
+//        }
+//        for (int i = 0; i < path_count; ++i){
+//            for (int j = 0; j < size; ++j){
+//                path[i][j] = op.path[i][j];
+//            }
+//        }
+//    }
+//    return *this;
+//}
+
+double option::price(int k, int method, int path_count, int size){
+    double **index = new double *[path_count];
+    for (int i = 0; i != path_count; ++i){
+        index[i] = new double[size];
+    }
+    //vector<int> row(size);
+    double strike = 1;
+    //vector<vector<int>> index(path_count, row);
+    //int* index = new int[path_count];
+    double delta = t / size;
+    double *in_the_money = new double[path_count];
+    //vector<double> in_the_money(path_count);
+    //double * test = new double[path_count];
+    //double * yn;
+    //vector<double> yn;
+    double *yn = new double[path_count];
+    //vector<vector<double>> path;
+    random_generator rg(7);
+    double **path = new double *[path_count];
+    for (int i = 0; i != path_count; ++i){
+        path[i] = rg.stock_path(size, t, r, sigma, s0/x);
+    }
+    
+//    for (int i = 0; i != path_count; ++i){
+//        path.push_back(rg.stock_path(size, t, r, sigma, s0/x));
+//    }
+    for (int i = 0; i < path_count; ++i){
+        if (path[i][size - 1] < strike){
+            index[i][size - 1] = 1;
+        }
+    }
+    for (int i = size - 2; i > 0; --i){
+        for (int j = 0; j < path_count; ++j){
+//            if (index[j] < size){
+//                double temp = index[j] - i;
+//                test.push_back(exp(-r * delta * temp) * (x - path[j][index[j]]));
+//            }
+//            else{
+//                test.push_back(0);
+//            }
+            for (int m = i + 1; m != size; ++m){
+                if (index[j][m] == 1){
+                    in_the_money[j] = exp(-r * delta * (size - m)) * (strike - path[j][m]);
+                    break;
+                }
+            }
+            
+        }
+        //std::cout << i << std::endl;
+        yn = laguerre::laguerre(in_the_money, path, i, k, 0);
+        //std::cout << "success" << std::endl;
+        for (int j = 0; j < path_count; ++j){
+            if (yn[j] < strike - path[j][i] && strike - path[j][i] > 0){
+                index[j][i] = 1;
+            }
+        }
+    }
+//    for (int i = 0; i < path_count; ++i){
+//        std::cout << index[i] << std::endl;
+//    }
+    double sum = 0;
+    for (int i = 0; i < path_count; ++i){
+        for (int j = 0; j != size; ++j){
+            if (index[i][j] == 1){
+                sum += exp(-r * delta * j) * (strike - path[i][j]);
+                break;
+            }
+        }
+        
+//        if (index[i] < size){
+//            sum += exp(-r * delta * index[i]) * (x - path[i][index[i]]);
+//            if (x - path[i][index[i]] < 0){
+//                std::cout << "(x - path[i][index[i]]): " << (x - path[i][index[i]]) << std::endl;
+//            }
+//        }
+        
+    }
+    delete [] in_the_money;
+    delete [] yn;
+    for (int i = 0; i != path_count; ++i){
+        delete[] index[i];
+        delete [] path[i];
+    }
+    delete [] index;
+    delete [] path;
+    std::cout << rg.get_seed() << std::endl;
+    return sum * x / path_count;
+}
+
+
+//double option::forward_option(double forward_date){
+//    double sum = 0;
+//    double temp1;
+//    double delta = t / size;
+//    int forward = int(forward_date / delta);
+//    //std::cout << forward << std::endl;
+//    for (int i = 0; i < path_count; i++){
+//        temp1 = path[i][forward] - path[i][size - 1];
+//        sum += temp1 > 0 ? temp1 : 0;
+//    }
+//    return exp(-r * t)  * sum / path_count;
+//}
+//
+//double option::forward_american_option(double forward_date){
+//    int* index = new int[path_count];
+//    double delta = t / size;
+//    double * test = new double[path_count];
+//    double * yn;
+//    double * exercise = new double[path_count];
+//    int forward = int(forward_date / delta);
+//    for (int i = 0; i < path_count; ++i){
+//        exercise[i] = path[i][forward];
+//    }
+//    for (int i = 0; i < path_count; ++i){
+//        if (path[i][size - 1] < exercise[i]){
+//            index[i] = size - 1;
+//        }
+//        else{
+//            index[i] = size;
+//        }
+//    }
+//    for (int i = size - 2; i > forward; --i){
+//        for (int j = 0; j < path_count; ++j){
+//            if (index[j] < size){
+//                double temp = index[j] - i;
+//                test[j] = exp(-r * delta * temp) * (exercise[j] - path[j][index[j]]);
+//            }
+//            else{
+//                test[j] = 0;
+//            }
+//        }
+//        yn = laguerre::laguerre(test, path, i, forward, 5, 2);
+//
+//        for (int j = 0; j < path_count; ++j){
+//            if (yn[j] < exercise[j] - path[j][i] && exercise[j] - path[j][i] > 0){
+//                index[j] = i;
+//            }
+//        }
+//    }
+//    //    for (int i = 0; i < path_count; ++i){
+//    //        std::cout << index[i] << std::endl;
+//    //    }
+//    double sum = 0;
+//    for (int i = 0; i < path_count; ++i){
+//        if (index[i] < size){
+//            sum += (exercise[i] - path[i][index[i]]);
+//            if (exercise[i] - path[i][index[i]] < 0){
+//                std::cout << "(x - path[i][index[i]]): " << (exercise[i] - path[i][index[i]]) << std::endl;
+//            }
+//        }
+//
+//    }
+//    delete [] index;
+//    delete [] test;
+//    delete [] exercise;
+//    return sum / path_count;
+//}
+
+void option::set(double s0,  double t, double r, double sigma, double x){
+    if (!std::isnan(s0)){
+        this->s0 = s0;
+    }
+    if (!std::isnan(r)){
+        this->r = r;
+    }
+    if (!std::isnan(sigma)){
+        this->sigma = sigma;
+    }
+    if (!std::isnan(x)){
+        this->x = x;
+    }
+    if (!std::isnan(t)){
+        this->t = t;
+    }
+//    random_generator rg;
+//    for (int i = 0; i < path_count; ++i){
+//        path[i] = rg.stock_path(size, this->t, this->r, this->sigma, this->s0);
+//    }
+
+}
+

@@ -1,0 +1,21 @@
+---
+title: "Hw2"
+output: pdf_document
+---
+
+
+## Question 4
+
+Suppose $Z(t) = f(W,t) = W_t^k$, so $Z(0) = 0$.
+
+\vspace{\baselineskip}
+
+Apply Ito's Lemma:
+\begin{align*}
+dZ &= \frac{\partial f}{\partial t} + \frac{\partial f}{\partial W}dW + \frac{1}{2}\frac{\partial^2 f}{\partial W^2}(dW)^2\\
+&= kW_t^{k-1}dW + \frac{1}{2}k(k-1)W_t^{k-2}dt\\
+Z(t) &= k\int_{0}^{t} W_s^{k-1}dW_s + \frac{1}{2}k(k-1)\int_{0}^{t} W_s^{k-2}ds + Z(0)\\
+E(Z(t)) &= kE(\int_{0}^{t} W_s^{k-1}dW_s) + \frac{1}{2}k(k-1)\int_{0}^{t} E(W_s^{k-2})ds\\
+E(W_t^k) &= 0 + \frac{1}{2}k(k-1)\int_{0}^{t} \beta_{k-2}(s)ds\\
+\beta_k(t) &= \frac{1}{2}k(k-1)\int_{0}^{t} \beta_{k-2}(s)ds\\
+\end{align*}

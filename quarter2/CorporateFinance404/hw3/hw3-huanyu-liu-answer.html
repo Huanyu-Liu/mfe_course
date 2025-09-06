@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+    <title>hw3.html</title>
+    <style>
+    /* we start with iaw.css */
+
+
+h1 { font-size:17pt; text-align:center; color:black; }
+h2 { font-size:14pt; text-align:left; color:black; }
+h3 { font-size:11pt; text-align:left; color:black; }
+
+a { text-decoration:none; color:#3284bf; }
+a:hover { text-decoration:underline; }
+/* { background-color:#3284bf; color:white; } */
+
+hr.fat { background-color:black; height:4px; }
+
+hr { background-color:black; height:1px; }
+
+li { margin-top: 1em; }
+
+p.notice { background-color:white; font-size:10pt; border:solid black 5px; }
+
+caption { color:brown; text-decoration:underline; font-size:9pt; }
+td { padding-left:1em; padding-right:1em; }
+th { text-decoration:underline }
+table { margin-left:2em; }
+
+p.boxright { width:355px; margin-right:0px; background-color:white; font-size:10pt; float:right; padding:20px; font-size:large; vertical-align:top; }
+
+dt.big { line-height:3; font-size:large; font-weight:bolder; font-family:sans-serif;margin-top:12pt }
+dt.hili { font-size:large; font-family:Cursive; display:inline; text-decoration:underline; padding-top:1em; }
+dt.smallbold { font-size:small; font-family:Cursive; display:inline; font-weight:bold; }
+dd { margin-bottom:1ex }
+
+td.hili { font-size:x-large; font-family:cursive; margin:20px; vertical-align:top }
+
+div.smallnobox { width:400pt; font-size:smaller; margin:10px; }
+div.smallbox { width:400pt; font-size:smaller; margin:10px; border:solid black 1px; }
+
+.boxquote {float: left; text-align: center; border: solid black 1px;font-family: Times, sans-serif; font-size: 12pt; margin: 10px;}
+
+td.googler { vertical-align:bottom; color:green; font-size:x-large}
+
+.small { font-size:smaller; }
+.right { text-align:right; }
+
+body { font-family: 'Oxygen', Verdana, serif; margin:2em; background-color: #F0F0F0; }
+
+div.explain { font-size:smaller; margin-left:40px; margin-right:40px; margin-bottom:10px; }
+
+
+summary::-webkit-details-marker {
+    color: #00ACF3;
+    font-size: 125%;
+    margin-right: 2px;
+}
+
+summary:focus {	outline-style: none; }
+article { margin-left:1em; }
+article > details > summary { font-size: 28px; margin-top: 32px; }
+article > details > summary.link { font-size: 28px; margin-top: 32px; text-decoration:underine; }
+details > p { margin-left: 36px; background-color:#f0f0f0; }
+details > div { margin-left: 36px; background-color:#f0f0f0; }
+
+details details { margin-left: 48px; }
+details details summary { font-size: 16px; }
+
+    </style>
+  </head>
+  <meta name="KEYWORDS" content="..." />
+  <meta name="AUTHOR" content="Huanyu Liu" />
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="hw.css" />
+  
+
+  <body>
+
+    <h1> Homework, by Huanyu Liu, Feb 2, 2019 </h1>
+
+    <h2> Data Extraction and Manipulation </h2>
+
+    <p>In this project, the daily returns of stocks in S&P500 were downloaded from CRSP. The data is ranging from 2009-01-01 to 2018-12-31. By using the daily returns and python script, annual data set of compounded rates of return for each stock was created. </p>
+
+    <h2> Summary </h2>
+
+    <p>By analysing the annual data set, in the last decades, the highest return in one year is 1276%, which was by COUSINS MTG & EQUITY INVTS (CMG) in 2009. While the lowest return in one year is -95.51% by AMERICAN AIRLINES GROUP INC (AAL) in 2011.</p><br>
+    <p>The mean of the annual returns of all stocks in last ten year is 18.08%. The highest mean annual return is 131.36% by COUSINS MTG & EQUITY INVTS (CMG) in the decades. While the lowest mean annual return is -16.27% by MILESTONE SCIENTIFIC INC (MS). The highest mean return by each year is 45.05%, which happened in 2009. And the lowest is -6.71% in 2018.
+    </p><br>
+    <p>The highest standard deviation of each stock is 386.25% by COUSINS MTG & EQUITY INVTS (CMG). And the lowest is 1.56% by LINDE PLC (LIN). The highest standard deviation for each year is 85.36% in 2009, and the lowest is 22.55% in 2018.
+    </p>
+
+
+    <h2> Computer Code </h2>
+
+    <pre>
+import pandas as pd
+import numpy as np
+df = pd.read_csv("/Users/huanyu/Desktop/CorporateFinance404/hw3/stocks_with_ticker.csv")
+df = df.drop(columns='PERMNO')
+df = df.pivot(index='date',columns='TICKER',values='RET')
+df = df.fillna(value=0)
+df.index = pd.to_datetime(df.index,format="%Y%m%d")
+df = df.replace('B',0)
+df = df.replace('C',0)
+index = list()
+for i in range(2009,2019):
+    index.append(i)
+columns = df.columns.values
+annual_return = pd.DataFrame(index=index,columns=columns)
+for i in range(2009, 2019):
+    for j in columns:
+        returns = df.loc[str(i) + '-01-01':str(i) + '-12-31', j].astype('float')
+        returns = np.prod(returns.add(1.0))
+        annual_return.loc[i, j] = returns - 1
+summary = ['max','min','average','variance']
+test_max = list()
+test_mean = list()
+test_std = list()
+test_min = list()
+
+for i in range(len(columns)):
+    test_max.append(max(annual_return.iloc[:,i]))
+    test_mean.append(np.mean(annual_return.iloc[:,i]))
+    test_std.append(np.std(annual_return.iloc[:,i]))
+    test_min.append(min(annual_return.iloc[:,i]))
+
+annual_return.loc['max'] = test_max
+annual_return.loc['min'] = test_min
+annual_return.loc['mean'] = test_mean
+annual_return.loc['sd'] = test_std
+
+
+test_max = list()
+test_mean = list()
+test_std = list()
+test_min = list()
+
+for i in range(14):
+    test_max.append(max(annual_return.iloc[i,:]))
+    test_mean.append(np.mean(annual_return.iloc[i, :]))
+    test_std.append(np.std(annual_return.iloc[i, :]))
+    test_min.append(min(annual_return.iloc[i, :]))
+
+annual_return['max'] = test_max
+annual_return['min'] = test_min
+annual_return['mean'] = test_mean
+annual_return['sd']  = test_std
+
+annual_return.to_csv('/Users/huanyu/Desktop/CorporateFinance404/hw3/annual_return.csv')
+    </pre>
+
+    <h2> References </h2>
+
+    <ul>
+      <li> <a href="https://wrds-web.wharton.upenn.edu/wrds/ds/crsp/stock_a/dsf.cfm?navId=128">WRDS CRSP</a>, retrieved on FEB 02, 2019. </li>
+    </ul>
+
+    <p class="notice">TAs, please do not judge me too harshly.</p>
+
+  </body>
+
+</html>

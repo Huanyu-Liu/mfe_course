@@ -1,0 +1,29 @@
+---
+title: "Lecture2p"
+output: pdf_document
+---
+
+
+**Suppose we buy x Bond A, y Bond B, z Bond C (negative value means short that amount of bond). To eliminate any future payments, we have: **
+\begin{align*}
+100x + 5y + 7z &= 0\\
+105y + 107z &= 0\\
+x &= -\frac{2}{105}z\\
+y &= -\frac{107}{105}z\\
+\end{align*}
+**To get an arbitrage opportunity at the initial state, there must be positive cash inflow at initial state, so we have: **
+\begin{align*}
+-95.238x - 98.438y - 103.37z &> 0\\
+-95.238 \times (-\frac{2}{105})z - 98.438 \times (-\frac{107}{105})z - 103.37z &> 0\\
+-1.243z &> 0\\
+z &< 0\\
+\end{align*}
+**z is negative, so we have to short bond C.**
+
+**The arbitrage strategy is: **
+
+**Suppose we short 1 bond C and we have to long $\frac{2}{105}$ bond A and $\frac{107}{105}$ bond B, so that there will be no future cash flow. The arbitrage opportunity cash inflow is:**
+\begin{align*}
+\qquad&-95.238 \times \frac{2}{105} - 98.438 \times \frac{107}{105} + 103.37 \times 1\\
+&= 1.2429
+\end{align*}

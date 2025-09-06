@@ -1,0 +1,68 @@
+---
+title: "Problem Set 5"
+output: pdf_document
+---
+
+\textbf{MGMTMFE 403-2 Stochastic Calculus}
+
+\textbf{Cohort 2 - Group 7 (Huanyu Liu, Hyeuk Jung, Jiaqi Li, Xichen Luo)}
+
+## Problem 1
+
+We use $V(t) = F(t,S(t))$ donate the portfolio which is to replicate the call option:
+
+$$dV(t) = V(t)\{\mu^0(t)r + \mu^*(t)\alpha(t,S(t))\}dt + V(t)\mu^*(t)\sigma(t,S(t))d\bar{W}(t)$$
+$$\mu^0(t) + \mu^*(t) = 1$$
+
+$$\begin{aligned}
+\mu_c &= \mu^0r + \mu^*\mu\\
+&= \mu^0r + (1 - \mu^0)\mu\\
+&= \mu + \mu^0(r-\mu)\\
+\end{aligned}$$
+
+
+
+$$\begin{aligned}
+\mu^0 &= \frac{F_t + \frac{1}{2}\sigma^2S^2F_{ss}}{rF}\\
+F_t &= \Theta = -\frac{s\varphi(d_1)\sigma}{2\sqrt{T-t}} - rKe^{-r(T-t)}N(d_2)\\
+F_{ss} &= \Gamma = \frac{\varphi(d_1)}{s\sigma\sqrt{T-t}}\\
+\end{aligned}$$
+
+Using the above 3 equations:
+
+$$\begin{aligned}
+\mu^0 &= \frac{-\frac{s\varphi(d_1)\sigma}{2\sqrt{T-t}} - rKe^{-r(T-t)}N(d_2) + 
+\frac{1}{2}\sigma^2S^2\frac{\varphi(d_1)}{s\sigma\sqrt{T-t}}}{rF}\\
+&= \frac{- rKe^{-r(T-t)}N(d_2)}{rF}\\
+\end{aligned}$$
+
+
+$$\begin{aligned}
+&\because r>0,\space K>0, \space N(d_2)>0, \space F>0\\
+&\therefore \mu^0 < 0\\
+&\therefore \mu^* = 1 - \mu^0 > 1\\
+&\because r<\mu,\space \mu^0 < 0,\space \mu^*>1\\
+&\therefore \mu_c = u + \mu^0(r-\mu) > \mu\\
+&\therefore\sigma_c = \mu^*\sigma>\sigma\\
+\end{aligned}$$
+
+
+$$\begin{aligned}
+\frac{\mu_c - r}{\sigma_c} &= \frac{\mu + (1-\mu^*)(r-\mu) -r}{\mu^*\sigma}\\
+&=\frac{\mu + r -\mu -r\mu^* +\mu\mu^* -r}{\mu^*\sigma}\\
+&= \frac{\mu - r}{\sigma}\\
+\end{aligned}$$
+
+
+
+## Problems 2
+
+Put-Call parity:
+
+$$p(t,s)=Ke^{-r(T-t)} + c(t,s) - s$$
+$$\frac{\partial{p}}{\partial s} = \frac{\partial c}{\partial s} - 1$$
+By Black-scholes formula:
+$$c(t,s) = sN(d_1) - e^{-r(T-t)}KN(d_2)$$
+$$\frac{\partial c}{\partial s} = N(d_1)$$
+$$\therefore \frac{\partial{p}}{\partial s} = N(d_1) - 1$$
+

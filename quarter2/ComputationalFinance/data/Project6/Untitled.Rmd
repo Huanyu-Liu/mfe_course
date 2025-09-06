@@ -1,0 +1,157 @@
+---
+title: "Project6"
+author: "Huanyu Liu"
+date: "2/22/2019"
+output: pdf_document
+---
+
+# Problem 1
+
+```{r, eval=TRUE}
+df = read.csv('project6_1.csv',header = FALSE)
+plot(df[c('V1','V2')], type = 'l',xlab = 'volatility', ylab = 'call price', main = 'Call price v.s. Volatility')
+plot(df[c('V1','V3')], type = 'l',xlab = 'volatility', ylab = 'put price', main = 'Put price v.s. Volatility')
+```  
+  
+  
+# Problem 2
+
+lambda1 = 0.05
+value: 4119.67
+default prob: 0.935
+expected exercise: 1.24051
+
+lambda1 = 0.1
+value: 4342.79
+default prob: 0.933
+expected exercise: 1.17818
+
+lambda1 = 0.15
+value: 4514.31
+default prob: 0.948
+expected exercise: 1.11591
+
+lambda1 = 0.2
+value: 4684.06
+default prob: 0.955
+expected exercise: 1.10273
+
+lambda1 = 0.25
+value: 4810.08
+default prob: 0.954
+expected exercise: 1.05859
+
+lambda1 = 0.3
+value: 5090.41
+default prob: 0.977
+expected exercise: 1.01207
+
+lambda1 = 0.35
+value: 5382.15
+default prob: 0.976
+expected exercise: 0.978678
+
+lambda1 = 0.4
+value: 5434.26
+default prob: 0.972
+expected exercise: 0.889224
+
+lambda2 = 0
+value: 3474.28
+default prob: 0.566
+expected exercise: 1.12916
+
+lambda2 = 0.1
+value: 4444.77
+default prob: 0.769
+expected exercise: 1.25667
+
+lambda2 = 0.2
+value: 4501.19
+default prob: 0.858
+expected exercise: 1.26507
+
+lambda2 = 0.3
+value: 4643.07
+default prob: 0.905
+expected exercise: 1.20002
+
+lambda2 = 0.4
+value: 4684.06
+default prob: 0.955
+expected exercise: 1.10273
+
+lambda2 = 0.5
+value: 4878.86
+default prob: 0.976
+expected exercise: 0.994236
+
+lambda2 = 0.6
+value: 4564.13
+default prob: 0.977
+expected exercise: 0.928188
+
+lambda2 = 0.7
+value: 4485.01
+default prob: 0.993
+expected exercise: 0.834595
+
+lambda2 = 0.8
+value: 4578.11
+default prob: 0.995
+expected exercise: 0.778218
+
+T = 3
+value: 4035.86
+default prob: 0.799
+expected exercise: 0.984281
+
+T = 4
+value: 4591.05
+default prob: 0.918
+expected exercise: 1.06304
+
+T = 5
+value: 4684.06
+default prob: 0.955
+expected exercise: 1.10273
+
+T = 6
+value: 4990.93
+default prob: 0.975
+expected exercise: 1.09586
+
+T = 7
+value: 5190.21
+default prob: 0.99
+expected exercise: 1.07782
+
+T = 8
+value: 5503.03
+default prob: 0.998
+expected exercise: 1.00618
+
+```{r,eval=TRUE}
+
+plot_func = function(file,y,ylim,is_lambda1_fixed){
+  df = read.csv(file)
+  plot(df[c(1,2)], type = "l",ylim = ylim,col = 2, xlab = 'T', ylab = y)
+  for (i in c(3:9)){
+    lines(df[c(1,i)],col = i)
+  }
+  if (is_lambda1_fixed){
+    legend("bottomright", legend = c("lambda2=0.1", "lambda2=0.2", "lambda2=0.3", "lambda2=0.4", "lambda2=0.5", "lambda2=0.6", "lambda2=0.7", "lambda2=0.8"), col = c(2:9), lwd = 1, cex = 0.65)
+  }
+  else{
+    legend("bottomright", legend = c("lambda1=0.05", "lambda1=0.1", "lambda1=0.15", "lambda1=0.2", "lambda1=0.25", "lambda1=0.3", "lambda1=0.35", "lambda1=0.4"), col = c(2:9), lwd = 1, cex = 0.65)
+  }
+  
+}
+plot_func("project6_2a.csv","value", c(3500,6200),FALSE)
+plot_func("project6_2b.csv","prob", c(0.7,1),FALSE)
+plot_func("project6_2c.csv","expected default time", c(0.8,1.3),FALSE)
+plot_func("project6_2d.csv","value",c(1600,5600),TRUE)
+plot_func("project6_2e.csv","prob",c(0.3,1),TRUE)
+plot_func("project6_2f.csv","expected default time",c(0.7,1.6),TRUE)
+
+```

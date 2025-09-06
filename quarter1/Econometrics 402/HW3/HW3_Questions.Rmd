@@ -1,0 +1,193 @@
+---
+output: pdf_document
+graphics: yes
+header-includes:
+    - \usepackage{tabu}
+    - \usepackage{amssymb, amsmath, amsthm}
+    - \usepackage{enumerate}
+    - \renewcommand{\P}{\textrm{P}}
+    - \newcommand{\R}{\mathbb{R}}
+    - \newcommand{\E}{\mathbb{E}}
+    - \newcommand{\var}{{\rm Var}}
+    - \newcommand{\cov}{{\rm Cov}}
+    - \newcommand{\iid}{\stackrel{iid}{\sim}}
+    - \newcommand{\N}{\mathcal{N}}
+---
+\noindent \begin{tabu} to \textwidth {@{}X[4 l] @{}X[r]}
+  \textbf{Problem Set 3} 	       & \\ 
+  \textbf{MFE 402: Econometrics} & \\ 
+  \textbf{Professor Rossi}		   & 
+\end{tabu}
+
+This problem set is designed to review material on the multiple regression model and time series. Include both your R code and output in your answers.
+
+
+## Question 1
+
+Using a sequence of simple regressions computed in `R`, show how to obtain the multiple regression coefficient on $P2$ in the `multi` dataset from the `DataAnalytics` package. 
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+```{r,eval=TRUE}
+library(DataAnalytics)
+data("multi")
+p2_p1 = lm(multi$p2 ~ multi$p1)
+
+sales_e12 = lm(multi$Sales ~ p2_p1$residuals)
+mr = lm(multi$Sales ~ multi$p1 + multi$p2)
+cat("The coefficient on p2 is",sales_e12$coefficients[[2]],"\n")
+cat("The difference between using simple regressions and multiple 
+    regression is", sales_e12$coefficients[[2]] - mr$coefficients[[3]],
+    "It's very close to 0.")
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+## Question 2
+
+Use matrix formulas and `R` code -- i.e., use `%*%` not `lm` -- to reproduce the least squares coefficients and standard errors shown on slide 17 of Chapter II. The `countryret` dataset is in the `DataAnalytics` package.
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+```{r,eval=TRUE}
+data("countryret")
+y = countryret$usa
+x = cbind(rep(1,length(y)),countryret$canada, countryret$uk, 
+          countryret$australia, countryret$france, countryret$germany, countryret$japan)
+
+coefficients = chol2inv(chol(crossprod(x))) %*% crossprod(x,y)
+
+e = y - x %*% coefficients
+ssq = sum(e*e)/(length(y) - ncol(x))
+Var_b = ssq * chol2inv(chol(crossprod(x)))
+std_err = sqrt(diag(Var_b))
+row.names(coefficients) = c("Intercept","Canada","UK","Austrilia","France","Germany","Japan")
+names(std_err) = c("Intercept","Canada","UK","Austrilia","France","Germany","Japan")
+coefficients
+std_err
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+## Question 3
+
+Run the regression of `VWNFX` on `vwretd`.
+
+a. Compute a 90\% prediction interval for `VWNFX` when `vwretd` = 0.05 using the formulas in the class notes.
+
+\begin{align*}
+predict_interval = b_0 + b_1X_f +- t_{N-2,\alpha/2}^*s_{pred}\\
+s_{pred} = s(1 + \frac{1}{N} + \frac{(X_f - \bar{X})^2}{(N-1)s_x^2})^{1/2}
+\end{align*}
+\vspace{\baselineskip}
+```{r,eval=TRUE}
+library(reshape2)
+data("Vanguard")
+data("marketRf")
+Van = Vanguard[c(1,2,5)]
+V_reshaped = dcast(Van,date ~ ticker, value.var = "mret")
+Van_mkt = merge(V_reshaped,marketRf,by="date")
+vwretd = Van_mkt$vwretd
+VWNFX = Van_mkt$VWNFX
+vwretd = vwretd[-which(is.na(VWNFX))]
+VWNFX = VWNFX[-which(is.na(VWNFX))]
+
+out = lm(VWNFX ~ vwretd)
+s = summary(out)[[6]]
+n = length(vwretd)
+s_pred = s * sqrt(1 + 1/n + (0.05 - mean(vwretd))^2/((n - 1) * var(vwretd)))
+t = qt(0.95,df = n - 2)
+interval_low = out$coefficients[1] + out$coefficients[2] * 0.05 - t * s_pred
+interval_upper = out$coefficients[1] + out$coefficients[2] * 0.05 + t * s_pred
+
+cat("90% confident interval is ", interval_low, "to",interval_upper)
+
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+b. Check your work in part (a) by computing a 90\% prediction interval using R's `predict` command.
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+```{r,eval=TRUE}
+predict(out,data.frame(vwretd = 0.05),int = "prediction",level = 0.9)
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+## Question 4
+
+Define the mean return vector and the symmetric variance-covariance matrix for 3 assets as follows:
+
+$$ \mu = \begin{bmatrix} 0.010 \\ 0.015 \\ 0.025 \end{bmatrix} \hspace{3em} \Sigma = \begin{bmatrix} 0.0016 & 0.0010 & 0.0015 \\  & 0.0020 & 0.0019 \\  &  & 0.0042 \end{bmatrix} $$
+
+a. Compute the correlation matrix of these three assets from the variance-covariance matrix $\Sigma$ by dividing the $(i,j)$ element of $\Sigma$ by $\sigma_i$ and $\sigma_j$. You must use matrix operations (e.g., `diag()`, `X*Y`, or `X%*%Y`) in your answer. You may not use a loop and you may not use the `R` function `cov2cor`. 
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+```{r,eval=TRUE}
+u = matrix(c(0.01,0.015,0.025),nrow = 3,ncol = 1,byrow = TRUE)
+sigma = matrix(c(0.0016,0.0010,0.0015,0.0010,0.002,0.0019,0.0015,0.0019,0.0042),nrow = 3,
+               ncol = 3, byrow = TRUE)
+diagnal = sqrt(diag(sigma))^-1
+diagnal_matrix = diag(diagnal,nrow = 3,ncol = 3)
+
+sigma %*% diagnal_matrix * diagnal
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+b. Compute the mean and standard deviation of a portfolio made from these assets with weights $(0.3, 0.4, 0.3)$
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+```{r, eval=TRUE}
+weights = matrix(c(0.3,0.4,0.3),nrow = 1,ncol = 3,byrow = TRUE)
+mean = weights %*% u
+sd = sqrt(weights %*% sigma %*% t(weights))
+cat("The mean and standard deviation of the portfolio are", mean, "and", sd, "correspondingly")
+```
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+## Question 5
+
+Using the same data as in Question 3 above and following the lecture slides (Chapter 3, section g), test the general linear hypothesis that $\beta_{up} = \beta_{down}$ in the following regression. Note that if you account for the `NA` values properly, you should get a slightly different result than what is presented in the lecture slides.
+
+$$ VWNFX_t = \alpha + \beta_{up}*vwretd_t^{+} + \beta_{down}*vwretd_t^{-} + \varepsilon_t $$
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+```{r,eval=TRUE}
+mkt_up = ifelse(vwretd>0,1,0)
+mkt_down = 1 - mkt_up
+mkt_up = mkt_up * vwretd
+mkt_down = mkt_down * vwretd
+mkt_timing = lm(VWNFX ~ mkt_up + mkt_down)
+R = matrix(c(0,1,-1),byrow = TRUE,nrow = 1)
+r = c(0)
+x = cbind(c(rep(1,length(vwretd))),mkt_up,mkt_down)
+b = as.vector(mkt_timing$coefficients)
+QFmat = chol2inv(chol(crossprod(x)))
+QFmat = R %*% QFmat %*% t(R)
+Violation = R%*%b - matrix(r,ncol = 1)
+fnum = t(Violation) %*% chol2inv(chol(QFmat)) %*% Violation
+n_minus_k = length(mkt_up) - length(b)
+fdenom = nrow(R) * sum(mkt_timing$residuals ** 2)/n_minus_k
+f = fnum / fdenom
+pvalue = 1 - pf(f,df1=nrow(R),df2 = n_minus_k)
+cat("The F test value and p value are", f, "and", pvalue, "correspondingly")
+```
+\vspace{\baselineskip}
+
+
+## Question 6
+
+Retrieve the Apple stock price series using the `quantmod` package (as done in the notes). Plot the autocorrelations of the difference in log prices.
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+
+```{r,eval=TRUE,message=FALSE}
+library("quantmod")
+getSymbols("AAPL",getSymbols.yahoo.warning = FALSE)
+lnclosed = log(AAPL[,4])
+plot(diff(lnclosed))
+acf(diff(lnclosed),na.action = na.omit)
+```
+

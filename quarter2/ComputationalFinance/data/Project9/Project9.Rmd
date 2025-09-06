@@ -1,0 +1,32 @@
+---
+title: "Project9"
+author: "Huanyu Liu"
+date: "3/12/2019"
+output: pdf_document
+---
+
+# Problem 1
+
+(a) MBS = 100814      
+
+```{r, echo=FALSE}
+plot_func = function(file,x){
+    df = read.csv(file,header = FALSE)
+    plot(df, type = "l",col = 2, xlab = x, ylab = 'MBS price')
+}
+noquote("(b)")
+plot_func('problem1b.csv', 'k')
+noquote('(c)')
+plot_func('problem1c.csv', 'r_bar')
+noquote('(d)')
+plot_func('problem1d.csv', 'sigma')
+```
+
+# Problem 2
+
+OAS = -0.0124826  
+
+# Problem 3
+Duration = 7.22548    
+Convexity = 45.917   
+

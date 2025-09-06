@@ -1,0 +1,427 @@
+﻿
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        /* we start with iaw.css */
+
+
+        h1 {
+            font-size: 17pt;
+            text-align: center;
+            color: black;
+        }
+
+        h2 {
+            font-size: 14pt;
+            text-align: left;
+            color: black;
+        }
+
+        h3 {
+            font-size: 11pt;
+            text-align: left;
+            color: black;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3284bf;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+        /* { background-color:#3284bf; color:white; } */
+
+        hr.fat {
+            background-color: black;
+            height: 4px;
+        }
+
+        hr {
+            background-color: black;
+            height: 1px;
+        }
+
+        li {
+            margin-top: 1em;
+        }
+
+        p.notice {
+            background-color: white;
+            font-size: 10pt;
+            border: solid black 5px;
+        }
+
+        caption {
+            color: brown;
+            text-decoration: underline;
+            font-size: 9pt;
+        }
+
+        td {
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+
+        th {
+            text-decoration: underline
+        }
+
+        table {
+            margin-left: 2em;
+        }
+
+        p.boxright {
+            width: 355px;
+            margin-right: 0px;
+            background-color: white;
+            font-size: 10pt;
+            float: right;
+            padding: 20px;
+            font-size: large;
+            vertical-align: top;
+        }
+
+        dt.big {
+            line-height: 3;
+            font-size: large;
+            font-weight: bolder;
+            font-family: sans-serif;
+            margin-top: 12pt
+        }
+
+        dt.hili {
+            font-size: large;
+            font-family: Cursive;
+            display: inline;
+            text-decoration: underline;
+            padding-top: 1em;
+        }
+
+        dt.smallbold {
+            font-size: small;
+            font-family: Cursive;
+            display: inline;
+            font-weight: bold;
+        }
+
+        dd {
+            margin-bottom: 1ex
+        }
+
+        td.hili {
+            font-size: x-large;
+            font-family: cursive;
+            margin: 20px;
+            vertical-align: top
+        }
+
+        div.smallnobox {
+            width: 400pt;
+            font-size: smaller;
+            margin: 10px;
+        }
+
+        div.smallbox {
+            width: 400pt;
+            font-size: smaller;
+            margin: 10px;
+            border: solid black 1px;
+        }
+
+        .boxquote {
+            float: left;
+            text-align: center;
+            border: solid black 1px;
+            font-family: Times, sans-serif;
+            font-size: 12pt;
+            margin: 10px;
+        }
+
+        td.googler {
+            vertical-align: bottom;
+            color: green;
+            font-size: x-large
+        }
+
+        .small {
+            font-size: smaller;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        body {
+            font-family: 'Oxygen', Verdana, serif;
+            margin: 2em;
+            background-color: #F0F0F0;
+        }
+
+        div.explain {
+            font-size: smaller;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-bottom: 10px;
+        }
+
+
+        summary::-webkit-details-marker {
+            color: #00ACF3;
+            font-size: 125%;
+            margin-right: 2px;
+        }
+
+        summary:focus {
+            outline-style: none;
+        }
+
+        article {
+            margin-left: 1em;
+        }
+
+            article > details > summary {
+                font-size: 28px;
+                margin-top: 32px;
+            }
+
+                article > details > summary.link {
+                    font-size: 28px;
+                    margin-top: 32px;
+                    text-decoration: underline;
+                }
+
+        details > p {
+            margin-left: 36px;
+            background-color: #f0f0f0;
+        }
+
+        details > div {
+            margin-left: 36px;
+            background-color: #f0f0f0;
+        }
+
+        details details {
+            margin-left: 48px;
+        }
+
+            details details summary {
+                font-size: 16px;
+            }
+    </style>
+    <title>Homework 3, Sumeng Wang, Feb 2 2019</title>
+</head>
+
+<body>
+
+    <h1> Homework 3, by Sumeng Wang, Feb 2, 2019 </h1>
+
+    <h2> Executive Summary </h2>
+    <p>
+        This assignment creates a annual return and market cap data set for each stock from year 2008 to 2018. It also examines some basic statistics for this data set.
+    </p>
+
+
+    <h2> Full Body Text </h2>
+
+    <p>
+        First, we obtain the data from CRSP. We go onto CRSP Monthly Stock file, search for PERMNO from the entire database, select TICKER, CUSIP, Number of Shares outstanding, and Price.
+    </p>
+    <p>
+        Then we clean up the data. To get the annual return, we take difference between the end price of this year and the previous year, then divide by the end price of the previous year. To get market cap, we take the product of number of shares outstanding and share price. Some companys did not have full data for the entire time period, we left those as NA as required.
+    </p>
+    <p>
+        Next, we find some basic statistics of the data set, such as mean and standard deviation. As we can see from the tables below, the standard deviation is very big for either data. This might due to all stocks range from different sectors and industries, so it would not be wise to compare all of them together. But at this stage we are not doing too much analysis.
+    </p>
+    <p>
+        In the return to market cap figure, we see a slightly positive correlation between them. One anormaly is in 2009, the return to market cap ratio is very large compared to other years. This might due to the recovery from 2008 financial crisis.
+    </p>
+    <h2> Tables and Figures </h2>
+    <table style="font-size:80%">
+        <caption> Basic stats for annual return</caption>
+        <thead> <tr> <th>Year</th> <th>Mean</th>  <th> stdev </th> </tr> </thead>
+        <tbody>
+            <tr> <td>2008</td> <td>-0.442</td>  <td>0.539</td> </tr>
+            <tr> <td>2009</td> <td>0.671</td>  <td>3.207</td> </tr>
+            <tr> <td>2010</td> <td>0.254</td>  <td>1.250</td> </tr>
+            <tr> <td>2011</td> <td>-0.088</td> <td>0.860</td> </tr>
+            <tr> <td>2012</td> <td>0.160</td> <td>1.261</td> </tr>
+            <tr> <td>2013</td> <td>0.326</td> <td>1.123</td> </tr>
+            <tr> <td>2014</td> <td>-0.016</td> <td>0.653</td> </tr>
+            <tr> <td>2015</td> <td>-0.081</td> <td>1.003</td> </tr>
+            <tr> <td>2016</td> <td>0.233</td> <td>2.009</td> </tr>
+            <tr> <td>2017</td> <td>0.194</td> <td>2.350</td> </tr>
+            <tr> <td>2018</td> <td>-0.130</td> <td>0.950</td> </tr>
+        </tbody>
+    </table>
+    <br>
+    <table style="font-size:80%">
+        <caption> Basic stats for market cap (in millions)</caption>
+        <thead> <tr> <th>Year</th> <th>Mean</th>  <th> stdev </th> </tr> </thead>
+        <tbody>
+            <tr> <td>2008</td> <td>1.914</td>  <td>10.186</td> </tr>
+            <tr> <td>2009</td> <td>2.605</td>  <td>11.897</td> </tr>
+            <tr> <td>2010</td> <td>3.096</td>  <td>13.266</td> </tr>
+            <tr> <td>2011</td> <td>2.947</td> <td>13.529</td> </tr>
+            <tr> <td>2012</td> <td>3.326</td> <td>15.165</td> </tr>
+            <tr> <td>2013</td> <td>4.258</td> <td>18.194</td> </tr>
+            <tr> <td>2014</td> <td>4.504</td> <td>19.412</td> </tr>
+            <tr> <td>2015</td> <td>4.221</td> <td>19.227</td> </tr>
+            <tr> <td>2016</td> <td>4.574</td> <td>20.637</td> </tr>
+            <tr> <td>2017</td> <td>5.446</td> <td>25.720</td> </tr>
+            <tr> <td>2018</td> <td>4.863</td> <td>24.746</td> </tr>
+        </tbody>
+    </table>
+    <br>
+    <img alt="plot1" src="data:image/png;base64,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">
+    <h2> Computer Code </h2>
+
+    <pre>
+library(quantmod)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+df = read.csv("stocks2.csv")
+perm_num = unique(df$PERMNO)
+n = length(perm_num)
+result = list()
+ret_2008 = c()
+ret_2009 = c()
+ret_2010 = c()
+ret_2011 = c()
+ret_2012 = c()
+ret_2013 = c()
+ret_2014 = c()
+ret_2015 = c()
+ret_2016 = c()
+ret_2017 = c()
+ret_2018 = c()
+mktcap_2008 = c()
+mktcap_2009 = c()
+mktcap_2010 = c()
+mktcap_2011 = c()
+mktcap_2012 = c()
+mktcap_2013 = c()
+mktcap_2014 = c()
+mktcap_2015 = c()
+mktcap_2016 = c()
+mktcap_2017 = c()
+mktcap_2018 = c()
+for (i in 1:n){
+  df_1 = df[df$PERMNO == perm_num[i],]
+  df_xts = as.xts(df_1, order.by = as.Date(as.character(df_1$date), "%Y%m%d"))
+  t = df_xts[endpoints(df_xts, 'years'),]
+  ret = diff(as.numeric(t$PRC)) / as.numeric(t[1:length(t$PERMNO)-1]$PRC)
+  yr = year(t[-1]$date)
+  out = as.data.frame(t[-1])
+  mktcap = as.numeric(t[-1]$PRC) * as.numeric(t[-1]$SHROUT)
+  out$RET = ret
+  out$Year = yr
+  out$mktcap = mktcap
+
+  ret_2008 = if (length(out[out$Year == 2008, "RET"])>0) c(ret_2008, out[out$Year == 2008, "RET"]) else c(ret_2008, NA)
+  ret_2009 = if (length(out[out$Year == 2009, "RET"])>0) c(ret_2009, out[out$Year == 2009, "RET"]) else c(ret_2009, NA)
+  ret_2010 = if (length(out[out$Year == 2010, "RET"])>0) c(ret_2010, out[out$Year == 2010, "RET"]) else c(ret_2010, NA)
+  ret_2011 = if (length(out[out$Year == 2011, "RET"])>0) c(ret_2011, out[out$Year == 2011, "RET"]) else c(ret_2011, NA)
+  ret_2012 = if (length(out[out$Year == 2012, "RET"])>0) c(ret_2012, out[out$Year == 2012, "RET"]) else c(ret_2012, NA)
+  ret_2013 = if (length(out[out$Year == 2013, "RET"])>0) c(ret_2013, out[out$Year == 2013, "RET"]) else c(ret_2013, NA)
+  ret_2014 = if (length(out[out$Year == 2014, "RET"])>0) c(ret_2014, out[out$Year == 2014, "RET"]) else c(ret_2014, NA)
+  ret_2015 = if (length(out[out$Year == 2015, "RET"])>0) c(ret_2015, out[out$Year == 2015, "RET"]) else c(ret_2015, NA)
+  ret_2016 = if (length(out[out$Year == 2016, "RET"])>0) c(ret_2016, out[out$Year == 2016, "RET"]) else c(ret_2016, NA)
+  ret_2017 = if (length(out[out$Year == 2017, "RET"])>0) c(ret_2017, out[out$Year == 2017, "RET"]) else c(ret_2017, NA)
+  ret_2018 = if (length(out[out$Year == 2018, "RET"])>0) c(ret_2018, out[out$Year == 2018, "RET"]) else c(ret_2018, NA)
+
+  mktcap_2008 = if (length(out[out$Year == 2008, "mktcap"])>0) c(mktcap_2008, out[out$Year == 2008, "mktcap"]) else c(mktcap_2008, NA)
+  mktcap_2009 = if (length(out[out$Year == 2009, "mktcap"])>0) c(mktcap_2009, out[out$Year == 2009, "mktcap"]) else c(mktcap_2009, NA)
+  mktcap_2010 = if (length(out[out$Year == 2010, "mktcap"])>0) c(mktcap_2010, out[out$Year == 2010, "mktcap"]) else c(mktcap_2010, NA)
+  mktcap_2011 = if (length(out[out$Year == 2011, "mktcap"])>0) c(mktcap_2011, out[out$Year == 2011, "mktcap"]) else c(mktcap_2011, NA)
+  mktcap_2012 = if (length(out[out$Year == 2012, "mktcap"])>0) c(mktcap_2012, out[out$Year == 2012, "mktcap"]) else c(mktcap_2012, NA)
+  mktcap_2013 = if (length(out[out$Year == 2013, "mktcap"])>0) c(mktcap_2013, out[out$Year == 2013, "mktcap"]) else c(mktcap_2013, NA)
+  mktcap_2014 = if (length(out[out$Year == 2014, "mktcap"])>0) c(mktcap_2014, out[out$Year == 2014, "mktcap"]) else c(mktcap_2014, NA)
+  mktcap_2015 = if (length(out[out$Year == 2015, "mktcap"])>0) c(mktcap_2015, out[out$Year == 2015, "mktcap"]) else c(mktcap_2015, NA)
+  mktcap_2016 = if (length(out[out$Year == 2016, "mktcap"])>0) c(mktcap_2016, out[out$Year == 2016, "mktcap"]) else c(mktcap_2016, NA)
+  mktcap_2017 = if (length(out[out$Year == 2017, "mktcap"])>0) c(mktcap_2017, out[out$Year == 2017, "mktcap"]) else c(mktcap_2017, NA)
+  mktcap_2018 = if (length(out[out$Year == 2018, "mktcap"])>0) c(mktcap_2018, out[out$Year == 2018, "mktcap"]) else c(mktcap_2018, NA)
+  result[[i]] = out
+}
+
+mean_ret_2008 = mean(ret_2008, na.rm = T)
+mean_ret_2009 = mean(ret_2009, na.rm = T)
+mean_ret_2010 = mean(ret_2010, na.rm = T)
+mean_ret_2011 = mean(ret_2011, na.rm = T)
+mean_ret_2012 = mean(ret_2012, na.rm = T)
+mean_ret_2013 = mean(ret_2013, na.rm = T)
+mean_ret_2014 = mean(ret_2014, na.rm = T)
+mean_ret_2015 = mean(ret_2015, na.rm = T)
+mean_ret_2016 = mean(ret_2016, na.rm = T)
+mean_ret_2017 = mean(ret_2017, na.rm = T)
+mean_ret_2018 = mean(ret_2018, na.rm = T)
+
+mean_mktcap_2008 = mean(mktcap_2008, na.rm = T)
+mean_mktcap_2009 = mean(mktcap_2009, na.rm = T)
+mean_mktcap_2010 = mean(mktcap_2010, na.rm = T)
+mean_mktcap_2011 = mean(mktcap_2011, na.rm = T)
+mean_mktcap_2012 = mean(mktcap_2012, na.rm = T)
+mean_mktcap_2013 = mean(mktcap_2013, na.rm = T)
+mean_mktcap_2014 = mean(mktcap_2014, na.rm = T)
+mean_mktcap_2015 = mean(mktcap_2015, na.rm = T)
+mean_mktcap_2016 = mean(mktcap_2016, na.rm = T)
+mean_mktcap_2017 = mean(mktcap_2017, na.rm = T)
+mean_mktcap_2018 = mean(mktcap_2018, na.rm = T)
+
+sd_ret_2008 = sd(ret_2008, na.rm = T)
+sd_ret_2009 = sd(ret_2009, na.rm = T)
+sd_ret_2010 = sd(ret_2010, na.rm = T)
+sd_ret_2011 = sd(ret_2011, na.rm = T)
+sd_ret_2012 = sd(ret_2012, na.rm = T)
+sd_ret_2013 = sd(ret_2013, na.rm = T)
+sd_ret_2014 = sd(ret_2014, na.rm = T)
+sd_ret_2015 = sd(ret_2015, na.rm = T)
+sd_ret_2016 = sd(ret_2016, na.rm = T)
+sd_ret_2017 = sd(ret_2017, na.rm = T)
+sd_ret_2018 = sd(ret_2018, na.rm = T)
+
+sd_mktcap_2008 = sd(mktcap_2008, na.rm = T)
+sd_mktcap_2009 = sd(mktcap_2009, na.rm = T)
+sd_mktcap_2010 = sd(mktcap_2010, na.rm = T)
+sd_mktcap_2011 = sd(mktcap_2011, na.rm = T)
+sd_mktcap_2012 = sd(mktcap_2012, na.rm = T)
+sd_mktcap_2013 = sd(mktcap_2013, na.rm = T)
+sd_mktcap_2014 = sd(mktcap_2014, na.rm = T)
+sd_mktcap_2015 = sd(mktcap_2015, na.rm = T)
+sd_mktcap_2016 = sd(mktcap_2016, na.rm = T)
+sd_mktcap_2017 = sd(mktcap_2017, na.rm = T)
+sd_mktcap_2018 = sd(mktcap_2018, na.rm = T)
+
+ret_to_cap = cbind(c(mean_ret_2008,
+                             mean_ret_2009,
+                             mean_ret_2010,
+                             mean_ret_2011,
+                             mean_ret_2012,
+                             mean_ret_2013,
+                             mean_ret_2014,
+                             mean_ret_2015,
+                             mean_ret_2016,
+                             mean_ret_2017,
+                             mean_ret_2018),
+                           c(mean_mktcap_2008,
+                             mean_mktcap_2009,
+                             mean_mktcap_2010,
+                             mean_mktcap_2011,
+                             mean_mktcap_2012,
+                             mean_mktcap_2013,
+                             mean_mktcap_2014,
+                             mean_mktcap_2015,
+                             mean_mktcap_2016,
+                             mean_mktcap_2017,
+                             mean_mktcap_2018))
+ret_to_cap = as.data.frame(ret_to_cap)
+names(ret_to_cap) = c('ret','mktcap')
+ggplot(data = ret_to_cap, aes(y = ret, x = mktcap)) + geom_point() + ggtitle('average return to average market cap of all stocks')
+
+    </pre>
+
+
+</body>
+</html>

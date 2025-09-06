@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/laguerre.h
+stdio.h
+-
+cmath
+-
+iostream
+-
+matrix_cal.h
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/matrix_cal.h
+
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/matrix_cal.h
+stdio.h
+-
+
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/option.cpp
+option.h
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/option.h
+
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/option.h
+stdio.h
+-
+iostream
+-
+random_generator.h
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/random_generator.h
+laguerre.h
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/laguerre.h
+
+/mnt/c/Users/LIUH0/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/random_generator.h
+stdio.h
+-
+cmath
+-
+numeric
+-
+

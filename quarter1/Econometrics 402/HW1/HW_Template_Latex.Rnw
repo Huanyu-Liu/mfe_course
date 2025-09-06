@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\usepackage{amsmath}  % for math environs
+\usepackage{hyperref} % for url links
+\usepackage[left=1.0in, right=1.0in, bottom=1.0in]{geometry} % control margin size; default is huge
+\usepackage[parfill]{parskip} % paragraphs: no indent, space between
+
+\newcommand{\E}{\mathbb{E}} % shortcut "\E" for expectation
+
+\title{\vspace{-2.5cm}Problem Set 1}
+\author{Your Name}
+\date{}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Question 1}
+
+\noindent \emph{1a) Put question 1a text here.}
+
+Put answer here. You can format your text as \emph{italic} and \textbf{bold}.
+
+New paragraphs go on their own line, separated by an empty line.
+
+% Unrendered comments start with %. The next line inserts some empty vertical space
+\vspace{\baselineskip}
+
+\noindent \emph{1b) Put question 1b text here.}
+
+Inline math goes between dollar signs (e.g., $\beta$).
+
+Centered math goes between double dollar signs, or using the backslash-bracket notation:
+
+$$ y = X\beta + \varepsilon $$
+
+\[ \hat{\beta} = (X'X)^{-1}X'y \]
+
+You can align math using the \texttt{align} or \texttt{flalign} environments. Alignment is based on the ampersand, newlines are created with a double backslash, and equation numbering is controlled by the asterisk:
+
+\begin{align*}
+  c^2 
+  &= a^2 + b^2 \\
+  &= a \times a + b \times b
+\end{align*}
+
+
+\section*{Question 2}
+
+\noindent \emph{2a) Put question 2a text here}
+
+You can write inline code that gets evaluated like so: \Sexpr{x=3; x^2}. 
+
+Or you can write inline code that doesn't get evaluated: \texttt{$x^2$}.
+
+You can write code between $<<>>=$ and \texttt{@}, and control evaluation with the \texttt{eval} option. Evaluated code will print the results of evaluation into the rendered version of this document.
+
+<<eval=TRUE>>=
+y <- 7
+y^2
+@
+
+\vspace{\baselineskip}
+\noindent \emph{2b) Put question 2b text here}
+
+All of this information (and much more) is available on the RStudio \href{http://rmarkdown.rstudio.com/}{website}.
+
+
+\end{document}

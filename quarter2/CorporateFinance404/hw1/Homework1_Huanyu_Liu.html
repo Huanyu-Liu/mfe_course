@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+    <title>hw1.html</title>
+    <style>
+    /* we start with iaw.css */
+
+
+h1 { font-size:17pt; text-align:center; color:black; }
+h2 { font-size:14pt; text-align:left; color:black; }
+h3 { font-size:11pt; text-align:left; color:black; }
+
+a { text-decoration:none; color:#3284bf; }
+a:hover { text-decoration:underline; }
+/* { background-color:#3284bf; color:white; } */
+
+hr.fat { background-color:black; height:4px; }
+
+hr { background-color:black; height:1px; }
+
+li { margin-top: 1em; }
+
+p.notice { background-color:white; font-size:10pt; border:solid black 5px; }
+
+caption { color:brown; text-decoration:underline; font-size:9pt; }
+td { padding-left:1em; padding-right:1em; }
+th { text-decoration:underline }
+table { margin-left:2em; }
+
+p.boxright { width:355px; margin-right:0px; background-color:white; font-size:10pt; float:right; padding:20px; font-size:large; vertical-align:top; }
+
+dt.big { line-height:3; font-size:large; font-weight:bolder; font-family:sans-serif;margin-top:12pt }
+dt.hili { font-size:large; font-family:Cursive; display:inline; text-decoration:underline; padding-top:1em; }
+dt.smallbold { font-size:small; font-family:Cursive; display:inline; font-weight:bold; }
+dd { margin-bottom:1ex }
+
+td.hili { font-size:x-large; font-family:cursive; margin:20px; vertical-align:top }
+
+div.smallnobox { width:400pt; font-size:smaller; margin:10px; }
+div.smallbox { width:400pt; font-size:smaller; margin:10px; border:solid black 1px; }
+
+.boxquote {float: left; text-align: center; border: solid black 1px;font-family: Times, sans-serif; font-size: 12pt; margin: 10px;}
+
+td.googler { vertical-align:bottom; color:green; font-size:x-large}
+
+.small { font-size:smaller; }
+.right { text-align:right; }
+
+body { font-family: 'Oxygen', Verdana, serif; margin:2em; background-color: #F0F0F0; }
+
+div.explain { font-size:smaller; margin-left:40px; margin-right:40px; margin-bottom:10px; }
+
+
+summary::-webkit-details-marker {
+    color: #00ACF3;
+    font-size: 125%;
+    margin-right: 2px;
+}
+
+summary:focus {	outline-style: none; }
+article { margin-left:1em; }
+article > details > summary { font-size: 28px; margin-top: 32px; }
+article > details > summary.link { font-size: 28px; margin-top: 32px; text-decoration:underine; }
+details > p { margin-left: 36px; background-color:#f0f0f0; }
+details > div { margin-left: 36px; background-color:#f0f0f0; }
+
+details details { margin-left: 48px; }
+details details summary { font-size: 16px; }
+
+    </style>
+  </head>
+
+  <meta name="KEYWORDS" content="..." />
+  <meta name="AUTHOR" content="Huanyu Liu" />
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="hw.css" />
+  
+
+  <body>
+
+    <h1> Homework, by Huanyu Liu, Jan 20, 2019 </h1>
+
+    <h2> Executive Summary </h2>
+
+    <p>In this project, for the (CRSP) S&P500 with dividends, the average arithmetic and geometric historical mean rate of return are the objective, for daily returns, for monthly returns, for annual returns, and for 5-year returns from 1/1/1973 through 1/1/2015.  And the excess rates of return are calculated as well above the prevailing short rate, the 30-day Treasury rate, the 1-year Treasury rate, and the 5-year Treasury rates, respectively. </p>
+
+    <h2> Full Body Text </h2>
+    <p>For S&P500 returns, daily and 30 days treasury returns, I used the data from CRSP. While for the 1 year and 5 years treasury return data, I got them from FRED. A Python script with Pandas and Numpy Packages were used to generate all the results by the raw data in csv files.</p>
+
+    <h2> Tables and Figures </h2>
+
+    <p> Here goes the result table:
+
+      <table style="font-size:80%">
+        <caption> Returns Summary </caption>
+        <thead> <tr> <th>Time<br />Horizon</th> <th>Arithmetic</th> <th>Geometric</th><th>Excess<br />Arithmetic</th><th>Excess<br />Geometric</th> </tr> </thead>
+        <tbody>
+          <tr> <td>Daily</td> <td>0.04497%</td> <td> 0.03904% </td><td> 0.02643% </td><td> 0.02056% </td> </tr>
+          <tr> <td>Monthly</td> <td> 0.8577% </td> <td> 0.7580% </td><td> 0.5924% </td><td> 0.4972% </td> </tr>
+          <tr> <td>Anually</td> <td> 11.96% </td> <td> 10.36% </td><td> 6.436% </td><td> 5.071% </td> </tr>
+          <tr> <td>5 Years</td> <td> 69.69% </td> <td> 59.30% </td><td> 30.59% </td><td> 22.11% </td> </tr>
+        </tbody>
+      </table>
+
+    <h2> Computer Code </h2>
+
+    <pre>
+import pandas as pd
+import numpy as np
+
+path = "/Users/huanyu/Desktop/Corporate Finance 404/hw1"
+sp500 = pd.read_csv(path+"/sp500.csv")
+daily = pd.read_csv(path + "/daily.csv")
+monthly = pd.read_csv(path + "/30days.csv")
+DGS1 = pd.read_csv(path + "/DGS1.csv")
+DGS5 = pd.read_csv(path + "/DGS5.csv")
+
+def geometric_mean(array,length):
+    return np.prod(1 + array) ** (1 / length) - 1
+
+def excess(df,colname):
+    sp500_excess = sp500.join(df, how="outer")
+    sp500_excess = sp500_excess.dropna()
+    sp500_excess['excess'] = sp500_excess['vwretd'] - sp500_excess[colname]
+    return sp500_excess
+
+sp500['caldt'] = pd.to_datetime(sp500['caldt'],format="%Y%m%d").dt.date
+sp500.set_index('caldt',inplace=True)
+
+daily['qdate'] = pd.to_datetime(daily['qdate'],format="%Y%m%d").dt.date
+daily.set_index('qdate',inplace=True)
+daily = daily[['ffefrt']] / 360 / 100
+
+monthly['CALDT'] = pd.to_datetime(monthly['CALDT']).dt.date
+monthly.set_index('CALDT',inplace=True)
+monthly = monthly[['TDBIDYLD']]
+
+DGS1.set_index(pd.to_datetime(DGS1['DATE']).dt.date,inplace=True)
+DGS1 = DGS1[['DGS1']]
+DGS5.set_index(pd.to_datetime(DGS5['DATE']).dt.date,inplace=True)
+DGS5 = DGS5[['DGS5']]
+DGS1 = DGS1[DGS1['DGS1'] != '.']
+DGS1['DGS1'] = DGS1['DGS1'].astype(float) / 360 / 100
+DGS5 = DGS5[DGS5['DGS5'] != '.']
+DGS5['DGS5'] = DGS5['DGS5'].astype(float) / 360 / 100
+
+sp500_excess_daily = excess(daily,'ffefrt')
+sp500_excess_monthly = excess(monthly,'TDBIDYLD')
+sp500_excess_1year = excess(DGS1,'DGS1')
+sp500_excess_5year = excess(DGS5, 'DGS5')
+
+sp500_arith_daily = np.mean(sp500['vwretd'])
+sp500_geo_daily = geometric_mean(sp500['vwretd'],len(sp500['vwretd']))
+
+excess_arith_daily = np.mean(sp500_excess_daily['excess'])
+excess_geo_daily = geometric_mean(sp500_excess_daily['excess'],len(sp500_excess_daily['excess']))
+
+s = pd.Series(np.arange(sp500.shape[0]), index=pd.to_datetime(sp500.index))
+month_end = s.resample("M").max().values
+month_end = np.insert(month_end, 0,-1)
+year_end = s.resample("Y").max().values
+year_end = np.insert(year_end, 0 , -1)
+
+sp500_monthly = list()
+
+for i in range(month_end.size - 1):
+    sp500_monthly.append(np.prod(sp500.iloc[month_end[i] + 1: month_end[i+1]] + 1) - 1)
+
+sp500_monthly = np.array(sp500_monthly)
+sp500_arith_month = np.mean(sp500_monthly)
+sp500_geo_month = geometric_mean(sp500_monthly, sp500_monthly.size)
+
+excess_monthly = list()
+
+for i in range(month_end.size - 1):
+    excess_monthly.append(np.prod(sp500_excess_monthly.iloc[month_end[i] + 1: month_end[i+1],2] + 1) - 1)
+
+excess_monthly = np.array(excess_monthly)
+excess_arith_monthly = np.mean(excess_monthly)
+excess_geo_monthly = geometric_mean(excess_monthly, excess_monthly.size)
+
+sp500_annually = list()
+for i in range(year_end.size - 1):
+    sp500_annually.append(np.prod(sp500.iloc[year_end[i] + 1: year_end[i+1]] + 1) - 1)
+sp500_annually = np.array(sp500_annually)
+sp500_arith_annual = np.mean(sp500_annually)
+sp500_geo_annual = geometric_mean(sp500_annually,sp500_annually.size)
+
+excess_annually = list()
+for i in range(year_end.size - 1):
+    excess_annually.append(np.prod(sp500_excess_1year.iloc[year_end[i] + 1: year_end[i+1],2] + 1) - 1)
+excess_annually = np.array(excess_annually)
+
+excess_arith_annually = np.mean(excess_annually)
+excess_geo_annually = geometric_mean(excess_annually,excess_annually.size)
+
+sp500_5year = list()
+
+for i in range(0,year_end.size -3, 5):
+    sp500_5year.append(np.prod(sp500.iloc[year_end[i] + 1: year_end[i+5]] + 1) - 1)
+
+sp500_5year = np.array(sp500_5year)
+sp500_arith_5year = np.mean(sp500_5year)
+sp500_geo_5year = geometric_mean(sp500_5year,sp500_5year.size)
+
+excess_5year = list()
+
+for i in range(0,year_end.size - 3,5):
+    excess_5year.append(np.prod(sp500_excess_5year.iloc[year_end[i] + 1: year_end[i+5],2] + 1) - 1)
+excess_5year = np.array(excess_5year)
+
+excess_arith_5year = np.mean(excess_5year)
+excess_geo_5year = geometric_mean(excess_5year, excess_5year.size)
+    </pre>
+
+    <p class="notice">TAs, please do not judge me too harshly.</p>
+
+  </body>
+
+</html>

@@ -1,0 +1,204 @@
+---
+author: "Huanyu Liu"
+date: "4/4/2019"
+output: pdf_document
+---
+
+# Problem 2
+
+1.   
+
+```{python, engine.path = '/Users/huanyu/venv/bin/python3.6'}
+from scipy.stats import norm
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+mu = 0.08
+sigma1 = 0.12
+sigma2 = 0.2
+small = 0.00001
+var = 2 * mu
+c = 0.01
+left = mu
+right = 100
+pi = 0.7
+var_yours = mu - norm.ppf(0.01, loc = mu, scale = sigma2)
+var_partner = mu - norm.ppf(0.01, loc = mu, scale = sigma1)
+def cdf(var, p = pi):
+    return p * norm.cdf(mu - var, loc = mu, scale = sigma1) + (1 - p) * norm.cdf(mu - var, loc = mu, scale = sigma2);
+
+
+def value_at_risk(p, var = var, mu = mu):
+    result = cdf(var)
+    right = 100
+    left = mu
+    while (abs(result - c) > small):
+        if result < c:
+            right = var
+        else:
+            left = var
+        var = (left + right) / 2
+        result = cdf(var, p)
+    return var
+
+var_result = value_at_risk(pi)
+pi_array = np.arange(0,1,0.01)
+var_array = np.zeros(100)
+for i,v in enumerate(pi_array):
+    var_array[i] = value_at_risk(v)
+print('VaR for your view is', var_yours)
+print('VaR for partner view is', var_partner)
+print('VaR for common view is', var_result)
+```  
+With higher volatility, the VaR will be higher.  
+With PI between 0 and 1, common view will be ranging between your view and partner's view. 
+
+2.  
+```{python}
+pi_array = np.arange(0,1,0.01)
+var_array = np.zeros(100)
+for i,v in enumerate(pi_array):
+    var_array[i] = value_at_risk(v)
+plt.plot(pi_array, var_array)
+plt.xlabel('PI')
+plt.ylabel('VaR (Billion)')
+plt.title('VaR vs. PI')
+plt.show()
+```
+  
+The VaR of common view is ranging from that of your view 0.4653 to that of partner view 0.2792.  
+The higher the probability PI, the VaR of common view will be more towards that of partner view.
+  
+  
+3.    
+We can use simulation to compute the VaR of portfolio. With millions of draws from the gamma distribution of $\sigma$, we can compute the VaR for each $\sigma$. After that, we take the average of the VaRs. And the average VaR is the VaR of the portfolio.  
+\newpage
+
+# Problem 3
+3.   
+
+```{python}
+import math
+def eur_call(S,T,r,sigma,K):
+    d1 = (math.log(S/K) + (r + sigma * sigma / 2) * math.sqrt(T)) / (sigma * math.sqrt(T))
+    d2 = d1 - sigma * math.sqrt(T)
+    return S * norm.cdf(d1) - K * math.exp(-r * T) * norm.cdf(d2)
+    
+S = 50
+T = 0.25
+K = 50
+r = 0.02
+sigma = 0.16
+c0 = eur_call(S,T,r,sigma,K)
+print('c0 =', c0)
+```
+Due to the property that if X is a random variable with quantile c equal to x0, then the quantile c of g(X) is g(x0) if g is a monotone function.  
+Because the price of call is a monotone function of stock price, $P(C_T < C_0 - VaR_c) = 1 - c$ is equivalent to $P(C(S_T) < C(S_0 - VaR_s) = 1 - c$.  
+Therefore, $C_0 - VaR_c = C(S_0 - VaR_s)$  
+```{python}
+r = 0.02
+c_at_var = eur_call(S - 3.468, T - 10/252, r, sigma, K)
+#print(c_at_var)
+VaR_c = c0 - c_at_var
+print('VaR of call is', VaR_c)
+```  
+$$\begin{aligned}
+\frac{100 - x \times (e^{2\% \times \frac{10}{252}} - 1)}{1.3766} \times 1.7109 &= x + 100\\
+x &= 24.26 million\\ 
+\end{aligned}$$  
+  
+In your portfolio, long 124.26 million ATM call options and short 24.26 million bonds.
+  
+4.  
+```{python}
+r = 0.02
+def eur_put(S,T,r,sigma,K):
+    d1 = (math.log(S/K) + (r + sigma * sigma / 2) * math.sqrt(T)) / (sigma * math.sqrt(T))
+    d2 = d1 - sigma * math.sqrt(T)
+    return K * math.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
+p0 = eur_put(S,T,r,sigma,K)
+print('p0 =', p0)
+```  
+Because stock has the mean of return larger than 0, so the expectation of stock price will be higher than S0 in 10 days. The VaR of put will be lower if we short put instead of long it. So that we can invest more on put within the same VaR constrain.  
+Same as call option, $P(P_T > P_0 + VaR_p) = 1 - c$ is equivalent to $P(P(S_T) > P(S_0 - VaR_s)) = 1 - c$.  
+Therefore, $P_0 + VaR_p = P(S_0 - VaR_s)$  
+  
+```{python}
+r = 0.02
+p_at_var = eur_put(S - 3.468, T - 10/252, r, sigma, K)
+#print(p_at_var)
+VaR_p = p_at_var - p0
+print('VaR of put option is', VaR_p)
+```  
+$$\begin{aligned}
+\frac{100 + x \times (e^{2\% \times \frac{10}{252}} - 1)}{2.1309} \times 1.4615 &= x - 100\\
+x &= 168.68 million\\ 
+\end{aligned}$$  
+In your portfolio, short 68.68 million ATM put options and long 168.68 million bonds. 
+  
+5.  
+```{python}
+r = 0.02
+def call_position(S,T,r,sigma,K):
+    c0 = eur_call(S,T,r,sigma,K)
+    c_at_var = eur_call(S - 3.468, T - 10/252, r, sigma, K)
+    var = c0 - c_at_var
+    return 100 * (1 - var / c0) / (var / c0 + math.exp(0.02 * 10 / 252) - 1) + 100
+
+def put_position(S,T,r,sigma,K):
+    p0 = eur_put(S,T,r,sigma,K)
+    p_at_var = eur_put(S - 3.468, T - 10/252, r, sigma, K)
+    var = p_at_var - p0
+    return 100 * (var / p0 + 1) / (var / p0 - math.exp(0.02 * 10 / 252) + 1) - 100
+
+put_returns = list()
+call_returns = list()
+stike = 0
+S_exp = S * math.exp((mu - 0.5 * sigma * sigma) * 10 / 252)
+put_positions = list()
+call_positions = list()
+max_return = 0
+k_list = np.arange(80,20,-0.1)
+for k in k_list:
+    call_unit = call_position(S, T, r, sigma, k)
+    call_positions.append(call_unit)
+    put_unit = put_position(S, T, r, sigma, k)
+    put_positions.append(-put_unit)
+    c_0 = eur_call(S,T,r,sigma,k)
+    p_0 = eur_put(S,T,r,sigma,k)
+    c_end = eur_call(S_exp,T-10/252,r,sigma,k)
+    p_end = eur_put(S_exp,T-10/252,r,sigma,k)
+    retn_c = (c_end - p_0) * call_unit / c_0 - (call_unit - 100) * (math.exp(0.02 * 10/252) - 1)
+    retn_p = (p_0 - p_end) * put_unit / p_0 + (put_unit + 100) * (math.exp(0.02 * 10/252) - 1)
+    call_returns.append(retn_c)
+    put_returns.append(retn_p)
+    if retn_p > max_return:
+        stike = k
+        max_return = retn_p
+print('Strike price of put with highest return is', stike)
+
+plt.plot(k_list, call_positions, label = 'call position')
+plt.plot(k_list, [-x + 100 for x in call_positions], label = 'bond position')
+plt.scatter(50, call_positions[300], s = 100)
+plt.annotate(str(call_positions[300]),xy=(50,call_positions[300]))
+plt.legend()
+plt.title('Portfolio position vs. Strike of put')
+plt.show()
+plt.plot(k_list, put_positions, label = 'put position')
+plt.plot(k_list, [-x + 100 for x in put_positions], label = 'bond position')
+plt.legend()
+plt.title('Portfolio position vs. Strike of put')
+plt.show()
+plt.plot(k_list, call_returns)
+plt.title('Expected Return vs. Strike of call')
+plt.show()
+plt.plot(k_list, put_returns)
+plt.title('Expected Return vs. Strike of put')
+plt.show()
+```
+According to the return plots, we should short put option with stike = 21.2.  
+In your portfolio, short put option 9185.47 million dollars and long 9285.47 million dollars. The expected return of this portfolio is 9192.76 million dollars.  
+  
+6.   
+With respect tp a constraint on expected shortfall, all the portfolio will have a low position on risky assets. And the return of all portfolio will be lower.

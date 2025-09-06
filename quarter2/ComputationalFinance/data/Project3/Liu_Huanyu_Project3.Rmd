@@ -1,0 +1,66 @@
+---
+title: "Project3"
+author: "Huanyu Liu"
+date: "1/30/2019"
+output: pdf_document
+---
+
+# Problem 1
+
+$$\begin{aligned}
+P(Y_2 > 5) &= 0.974\\
+E(X_2^{1/3}) &= 0.658903\\
+E(Y_3) &= 25.8096\\
+E(X_2Y_2 1(X_2 > 1)) &= 4.09305\\
+\end{aligned}$$  
+
+#Problem 2
+$$\begin{aligned}
+E((1+X_3)^{1/3}) = 1.32474\\
+E((1+Y_3)^{1/3}) = 1.33535\\
+\end{aligned}$$
+
+# Problem 3
+(a)  
+```{r,eval=TRUE}
+library("knitr")
+df = read.csv("Project3_P3.csv")
+kable(df,caption="Call Option stas")
+```
+  
+  
+```{r,eval=TRUE}
+
+greeks = c("Delta", "Gamma", "Theta", "Vega", "Rho")
+for (i in c(1:5)){
+  plot(x = df[[1]], y = df[[i+3]], xlab = "S0", ylab = greeks[i], type = "b", pch = 18)
+}
+```
+  
+# Problem 4
+T = 0.5  
+K = 50  
+Full Truncation: C1 = 2.59491    
+Partial Truncation: C2 = 2.59491  
+Reflection Method: C3 = 2.59491  
+
+# Problem 5
+(d)
+```{r, eval=TRUE}
+df2 = read.csv("Project3_P5.csv", header = FALSE)
+for (i in c(1,3,5)){
+  plot(x = df2[[i]], y = df2[[i+1]], xlab = "x", ylab = "y",pch = 20)
+}
+```
+
+Both Uniform and 2-dimension Halton with base 2 and 7 can produce random sequence numbers, however, 2-dimension Halton with base 2 and 4 is not a sequence of random numbers. There is correlation of the sequences by Halton with base 2 and with base 4.  
+  
+  
+    
+      
+      
+(e)
+$$\int_0^1 \int_0^1 e^{-xy}(sin6\pi x + cos^{\frac{1}{3}}2\pi y)dxdy$$
+By (2,4), value = -0.0048839  
+By (2,7), value = 0.0261144  
+By (5,7), value = 0.0261637

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/project5.dir/main.cpp.o CMakeFiles/project5.dir/option.cpp.o CMakeFiles/project5.dir/laguerre.cpp.o CMakeFiles/project5.dir/matrix_cal.cpp.o CMakeFiles/project5.dir/random_generator.cpp.o CMakeFiles/project5.dir/stats.cpp.o  -o project5 

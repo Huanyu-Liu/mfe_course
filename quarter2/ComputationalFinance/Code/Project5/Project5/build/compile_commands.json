@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/main.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/main.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/main.cpp"
+},
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/option.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/option.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/option.cpp"
+},
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/laguerre.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/laguerre.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/laguerre.cpp"
+},
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/matrix_cal.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/matrix_cal.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/matrix_cal.cpp"
+},
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/random_generator.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/random_generator.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/random_generator.cpp"
+},
+{
+  "directory": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/build",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/project5.dir/stats.cpp.o -c \"/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/stats.cpp\"",
+  "file": "/home/huanyu/huanyu_win/Documents/mfe courses/quarter2/ComputationalFinance/Code/Project5/Project5/stats.cpp"
+}
+]

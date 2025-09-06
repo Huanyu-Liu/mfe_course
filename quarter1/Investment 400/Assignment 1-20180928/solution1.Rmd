@@ -1,0 +1,17 @@
+
+#1
+invest = 10000
+year = 3
+ear = 0.06
+total_asset_a = invest * (1 + ear) ^ 3
+
+apr_q = 0.06
+total_asset_b = invest * (1 + apr_q/4) ^ 12
+
+apr_m = 0.06
+total_asset_c = invest * (1 + apr_m/12) ^ 36
+total_asset_c
+
+# answers
+a = total_asset_a
+a

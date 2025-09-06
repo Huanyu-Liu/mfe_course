@@ -1,0 +1,59 @@
+---
+title: Problem Set 1
+author: Your Name
+output: pdf_document
+header:
+  - \usepackage{amsmath}
+---
+
+## Question 1
+
+_1a) Put question 1a text here._
+
+Put answer here. You can format your text as _italic_ (or *italic*) and __bold__ (or **bold**).
+
+New paragraphs go on their own line, separated by an empty line.
+
+<!--- Unrendered comments are html-style. The next line inserts some empty vertical space --->
+\vspace{\baselineskip}
+
+*1b) Put question 1b text here.*
+
+Inline math goes between dollar signs (e.g., $\beta$).
+
+Centered math goes between double dollar signs, or using the backslash-bracket notation:
+
+$$ y = X\beta + \varepsilon $$
+
+\[ \hat{\beta} = (X'X)^{-1}X'y \]
+
+You can align math using the `align` or `flalign` latex-style environments. Alignment is based on the ampersand, newlines are created with a double backslash, and equation numbering is controlled by the asterisk:
+
+
+\begin{align*}
+  c^2 
+  &= a^2 + b^2 \\
+  &= a \times a + b \times b
+\end{align*}
+
+
+## Question 2
+
+*2a) Put question 2a text here*
+
+You can write inline code that gets evaluated like so: `r x=3; x^2`. 
+
+Or you can write inline code that doesn't get evaluated: `x^2`.
+
+You can write code between triple ticks and control evaluation with the `eval` option. Evaluated code will print the results of evaluation into the rendered version of this document.
+
+```{r, eval=TRUE}
+y <- 7
+y^2
+```
+
+\vspace{\baselineskip}
+*2b) Put question 2b text here*
+
+All of this information (and much more) is available on the RStudio [website](http://rmarkdown.rstudio.com/).
+
